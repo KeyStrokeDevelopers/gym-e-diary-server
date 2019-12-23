@@ -1,14 +1,13 @@
 import express from 'express'
+import { saveGymInfo } from '../controllers/gymInfo.controllers'
 const router = express.Router()
 
 
 router.get('/', (req, res) => {
-    res.send('gym get route')
+    res.send({'gym get route': req.body})
 })
 
-router.post('/', (req, res) => {
-    res.send('gym post route')
-})
+router.post('/', saveGymInfo );
 
 router.put('/:gymId', (req, res) => {
     res.send('gym put route')

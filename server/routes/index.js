@@ -1,12 +1,12 @@
 import express from 'express'
-import user from './user.route'
+import staff from './staff.route'
 import access from './access.route'
 import bank from './bank.route'
 import gymInfo from './gymInfo.route'
 import subscription from './subscription.route'
 const router = express.Router()
 
-router.use('/user', user)
+router.use('/staff', staff)
 router.use('/access', access)
 router.use('/bank', bank)
 router.use('/gymInfo', gymInfo)
