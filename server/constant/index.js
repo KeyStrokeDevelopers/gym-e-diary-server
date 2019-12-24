@@ -5,3 +5,7 @@ export const STAFF_INFO_FIELD = ['empId', 'firmId', 'branchId', 'empLevel', 'emp
 export const ACCESS_LEVEL_FIELD = ['accessLevel', 'controls', 'status', 'code', 'dated'];
 
 export const SUBSCRIPTION_FIELD = ['signupDate', 'renewalDate','smsBalance','appId','authId','smsApi','smsLimit','firmName'];
+
+export const JWT_SECRET = 'ssfwqwjsdafnsaddfc341knklsjh143l34';
+
+export  const BCRYPT_SALT_ROUNDS = 12;

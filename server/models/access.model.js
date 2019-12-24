@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const accessSchema = new Schema({
     accessLevel: {type: String, default: null},

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
-Schema = mongoose.Schema;
+import { JWT_SECRET } from '../constant'
+const Schema = mongoose.Schema;
 
 const staffSchema = new Schema({
     empId: {type: String, default: null},
@@ -18,5 +19,26 @@ const staffSchema = new Schema({
     empStatus: {type: String, default:null},
     deactiveDate: {type: String, default: null}
 });
+
+staffSchema.methods = {
+    authenticateStaff(password) {
+      return compareSync(password, this.password);
+    },
+
+     hashPassword(password) { 
+      return hashSync(password);
+    },
+
+    createToken() {
+      return jwt.sign(
+        {
+          _id: this._id,
+        },
+        JWT_SECRET,
+      );
+    },
+}
+
+
 
 module.exports = mongoose.model('Staff', staffSchema);

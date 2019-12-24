@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const bankSchema = new Schema({
     //TODO

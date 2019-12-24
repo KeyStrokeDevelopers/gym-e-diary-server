@@ -1,7 +1,8 @@
 import { GYM_INFO_FIELD, STAFF_INFO_FIELD, SUBSCRIPTION_FIELD, ACCESS_LEVEL_FIELD} from './index'
 
 export const gymInfoField = (data) => {
-    let gymInfo;
+    console.log('enter in gymInfoFiel----data--', data)
+    let gymInfo = {};
     GYM_INFO_FIELD.map((key)=>{
         if(data.hasOwnProperty(key)) {
             gymInfo[key] = data[key]
@@ -11,7 +12,7 @@ export const gymInfoField = (data) => {
 }
 
 export const staffInfoField = (data) => {
-    let staffInfo;
+    let staffInfo = {};
     STAFF_INFO_FIELD.map((key)=>{
         if(data.hasOwnProperty(key)) {
             staffInfo[key] = data[key]
@@ -21,7 +22,7 @@ export const staffInfoField = (data) => {
 }
 
 export const accessLevelField = (data) => {
-    let accessLevel;
+    let accessLevel = {};
     ACCESS_LEVEL_FIELD.map((key)=>{
         if(data.hasOwnProperty(key)) {
             accessLevel[key] = data[key]
@@ -31,7 +32,7 @@ export const accessLevelField = (data) => {
 }
 
 export const subscriptionField =(data) => {
-    let subscription;
+    let subscription = {};
     SUBSCRIPTION_FIELD.map((key)=>{
         if(data.hasOwnProperty(key)) {
             subscription[key] = data[key]
