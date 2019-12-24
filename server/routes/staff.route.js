@@ -2,18 +2,13 @@ import express from 'express'
 import { checkAuth, userLogin } from '../auth'
 const router = express.Router()
 
-
-
-
-
-router.post("/signIn", userLogin, (req,res) => {
+router.post("/signIn", userLogin, (req, res) => {
     res.send('ok');
 
 })
 
-
 router.get('/', checkAuth, (req, res) => {
-    res.send({user: res})
+    res.send({ user: res })
 })
 
 router.post('/', (req, res) => {

@@ -1,4 +1,5 @@
 import express from 'express'
+import Access from '../models/access.model';
 const router = express.Router()
 
 

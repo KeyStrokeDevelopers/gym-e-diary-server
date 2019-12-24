@@ -4,10 +4,10 @@ const router = express.Router()
 
 
 router.get('/', (req, res) => {
-    res.send({'gym get route': req.body})
+    res.send({ 'gym get route': req.body })
 })
 
-router.post('/', saveGymInfo );
+router.post('/', saveGymInfo);
 
 router.put('/:gymId', (req, res) => {
     res.send('gym put route')

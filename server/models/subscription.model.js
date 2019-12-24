@@ -1,16 +1,15 @@
-import mongoose from 'mongoose'
+import mongoose, { model } from 'mongoose'
+
 const Schema = mongoose.Schema;
 
 const subscriptionSchema = new Schema({
-    signupDate: {type: Date, default: Date.now},
-    renewalDate: {type: Date, default: Date.now + (7 * 86400000)},
-    smsBalance: {type: Number, default: 0},
-    appId: {type: String, default: null},
-    authId: {type:String, default: null},
-    smsApi: {type: String, default: null},
-    smsLimit: {type: Number, default: null},
-    firmName: {type: String, default: null},
-    package: {type: String, default: '2'},
+    startDate: { type: Date, default: new Date().getTime() },
+    renewalDate: { type: Date, default: (new Date() + (7 * 86400000)) },
+    package: { type: Schema.Types.ObjectId, ref: 'Package', default: '5e0208086453cc4859b7dada' },
+    quantity: { type: Number, default: 1 },
+    price: { type: Number, default: 0 },
+    purchaseDate: { type: Date, default: new Date().getTime() }
+
 });
 
-module.exports = mongoose.model('Subscription', subscriptionSchema);
+export default model('Subscription', subscriptionSchema);

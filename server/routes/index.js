@@ -4,6 +4,7 @@ import access from './access.route'
 import bank from './bank.route'
 import gymInfo from './gymInfo.route'
 import subscription from './subscription.route'
+
 const router = express.Router()
 
 router.use('/staff', staff)
@@ -12,6 +13,9 @@ router.use('/bank', bank)
 router.use('/gymInfo', gymInfo)
 router.use('/subscription', subscription)
 
+/**
+ * If route is not match
+ */
 router.use('/*', (req, res) => { res.send('Api route not found') })
 
 module.exports = router
