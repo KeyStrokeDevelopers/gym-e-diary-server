@@ -50,3 +50,13 @@ export const smsSubscriptionField = (data) => {
     })
     return subscription;
 }
+
+export const masterInfoField = (data) => {
+    let subscription = {};
+    SMS_SUBSCRIPTION_FIELD.map((key) => {
+        if (data.hasOwnProperty(key)) {
+            subscription[key] = data[key]
+        }
+    })
+    return subscription;
+}

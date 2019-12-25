@@ -1,12 +1,14 @@
 import Staff from '../models/staff.model';
+import MasterInfo from '../models/masterInfo.model'
 import GymInfo from '../models/gymInfo.model';
 import Access from '../models/access.model';
 import Subscription from '../models/subscription.model';
 import Package from '../models/package.model';
 import SmsPackage from '../models/smsPackage.model';
 import SmsSubscription from '../models/smsSubscription.model';
-import { gymInfoField, accessLevelField, subscriptionField, staffInfoField, smsSubscriptionField } from '../constant/fieldFilter'
-import { connectToDatabase } from '../databaseConnection';
+import { gymInfoField, accessLevelField, subscriptionField, 
+    staffInfoField, smsSubscriptionField, masterInfoField } from '../constant/fieldFilter'
+import { connectedToDatabase } from '../databaseConnection';
 import bcrypt from 'bcryptjs';
 import { BCRYPT_SALT_ROUNDS } from '../constant'
 
@@ -43,10 +45,10 @@ export const saveGymInfo = async (req, res) => {
         //     status: 1
         // }
 
-        await Package.create(packageData);
-        await SmsPackage.create(smsPackData)
+        // await Package.create(packageData);
+        // await SmsPackage.create(smsPackData)
 
-        res.send('ok')
+        // res.send('ok')
 
         /**
          * Filter field 
@@ -56,6 +58,7 @@ export const saveGymInfo = async (req, res) => {
         const subscription = subscriptionField(req.body);
         const staffInfo = staffInfoField(req.body);
         const smsSubscription = smsSubscriptionField(req.body)
+        const masterInfo = masterInfoField(req.body);
 
         accessLevelF.accessLevel = 'Admin'
         accessLevelF.status = '0'
@@ -69,23 +72,20 @@ export const saveGymInfo = async (req, res) => {
         /**
          * Create gyminfos table in master database
          */
-        await GymInfo.create(gymInfo);
+        await MasterInfo.create(masterInfo);
 
         /**
          * Set new database of user, set database name is (db-empContact)
          */
-        const newDb = `db-${staffInfo.empContact}`
-        connectToDatabase(newDb)
-
-        const dbcon = new Promise((resolve, reject) => {
-            setTimeout(() => resolve("done"), 1000);
-        })
-        await dbcon
+        const newDb = `db-adfdasf`
+        const isDbConSuccess = await connectedToDatabase(newDb);
+        if(!isDbConSuccess) {
+            res.status(401).send({message: 'Error in new database connection'})
+        }
 
         /**
-         * Save staff, access and Subscription data in staff database
+         * Save gym info, staff, access and Subscription data in staff database
          */
-
         await GymInfo.create(gymInfo);
         await Access.create(accessLevelF);
         await Staff.create(staffInfo);
