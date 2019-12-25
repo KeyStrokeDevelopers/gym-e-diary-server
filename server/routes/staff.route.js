@@ -1,14 +1,12 @@
 import express from 'express'
-import { checkAuth, userLogin } from '../auth'
+import { checkAuth, userLogin, checkMaster } from '../auth'
+import { getToken } from '../controllers/staff.controllers'
 const router = express.Router()
 
-router.post("/signIn", userLogin, (req, res) => {
-    res.send('ok');
-
-})
+router.post("/signIn", checkMaster, userLogin, getToken)
 
 router.get('/', checkAuth, (req, res) => {
-    res.send({ user: res })
+    res.send({ message: 'check auth success' })
 })
 
 router.post('/', (req, res) => {

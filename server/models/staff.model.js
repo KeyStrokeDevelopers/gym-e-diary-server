@@ -3,7 +3,7 @@ import mongoose, { model } from 'mongoose'
 const Schema = mongoose.Schema;
 
 const staffSchema = new Schema({
-  accessLevel: { type: Schema.Types.ObjectId, ref: 'Access' },
+  accessLevel: { type: Schema.Types.ObjectId, ref: 'Access', required: true },
   empName: { type: String, default: null },
   empAddress: { type: String, default: null },
   empContact: { type: String, required: true, unique: true },

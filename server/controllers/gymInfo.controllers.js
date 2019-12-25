@@ -6,8 +6,10 @@ import Subscription from '../models/subscription.model';
 import Package from '../models/package.model';
 import SmsPackage from '../models/smsPackage.model';
 import SmsSubscription from '../models/smsSubscription.model';
-import { gymInfoField, accessLevelField, subscriptionField, 
-    staffInfoField, smsSubscriptionField, masterInfoField } from '../constant/fieldFilter'
+import {
+    gymInfoField, accessLevelField, subscriptionField,
+    staffInfoField, smsSubscriptionField
+} from '../constant/fieldFilter'
 import { connectedToDatabase } from '../databaseConnection';
 import bcrypt from 'bcryptjs';
 import { BCRYPT_SALT_ROUNDS } from '../constant'
@@ -48,7 +50,7 @@ export const saveGymInfo = async (req, res) => {
         // await Package.create(packageData);
         // await SmsPackage.create(smsPackData)
 
-        // res.send('ok')
+        // // res.send('ok')
 
         /**
          * Filter field 
@@ -58,9 +60,9 @@ export const saveGymInfo = async (req, res) => {
         const subscription = subscriptionField(req.body);
         const staffInfo = staffInfoField(req.body);
         const smsSubscription = smsSubscriptionField(req.body)
-        const masterInfo = masterInfoField(req.body);
+        const masterInfo = {};
 
-        accessLevelF.accessLevel = 'Admin'
+        accessLevelF.accessLevel = 'Adminstrator'
         accessLevelF.status = '0'
 
         /**
@@ -70,24 +72,31 @@ export const saveGymInfo = async (req, res) => {
         staffInfo.empPassword = bcryptPassword;
 
         /**
-         * Create gyminfos table in master database
+         * , Set new database name
          */
+        const newDb = `db-${Math.round(Math.random() * 1000000 + new Date().getTime())}`
+
+        /**
+         * Create master information in master database
+         */
+        masterInfo.gymContact = gymInfo.branchContact;
+        masterInfo.newDbName = newDb
         await MasterInfo.create(masterInfo);
 
         /**
-         * Set new database of user, set database name is (db-empContact)
+         * Set new database of user
          */
-        const newDb = `db-adfdasf`
         const isDbConSuccess = await connectedToDatabase(newDb);
-        if(!isDbConSuccess) {
-            res.status(401).send({message: 'Error in new database connection'})
+        if (!isDbConSuccess) {
+            res.status(401).send({ message: 'Error in new database connection' })
         }
 
         /**
          * Save gym info, staff, access and Subscription data in staff database
          */
         await GymInfo.create(gymInfo);
-        await Access.create(accessLevelF);
+        const access = await Access.create(accessLevelF);
+        staffInfo.accessLevel = access._id;
         await Staff.create(staffInfo);
         await Subscription.create(subscription);
         await SmsSubscription.create(smsSubscription);
@@ -97,3 +106,6 @@ export const saveGymInfo = async (req, res) => {
         res.status(400).send(err);
     }
 }
+
+// If error occour at any postion then remove database from master and all recored remove from db
+// TODO

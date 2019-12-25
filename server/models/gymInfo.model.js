@@ -22,8 +22,7 @@ const gymInfoSchema = new Schema({
     appId: { type: String, default: null },
     authId: { type: String, default: null },
     smsApi: { type: String, default: null },
-    smsBalance: { type: Number, default: 0 },
-
+    smsBalance: { type: Number, default: 20 },
 });
 
 export default model('GymInfo', gymInfoSchema);

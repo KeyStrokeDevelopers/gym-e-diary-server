@@ -1,4 +1,4 @@
-import { GYM_INFO_FIELD, STAFF_INFO_FIELD, SUBSCRIPTION_FIELD, ACCESS_LEVEL_FIELD, SMS_SUBSCRIPTION_FIELD } from './index'
+import { GYM_INFO_FIELD, STAFF_INFO_FIELD, SUBSCRIPTION_FIELD, ACCESS_LEVEL_FIELD, SMS_SUBSCRIPTION_FIELD, STAFF_LOGIN_INFO_FIELD } from './index'
 
 export const gymInfoField = (data) => {
     let gymInfo = {};
@@ -51,12 +51,12 @@ export const smsSubscriptionField = (data) => {
     return subscription;
 }
 
-export const masterInfoField = (data) => {
-    let subscription = {};
-    SMS_SUBSCRIPTION_FIELD.map((key) => {
-        if (data.hasOwnProperty(key)) {
-            subscription[key] = data[key]
+export const loginStaffInfo = (data) => {
+    let userInfo = {};
+    STAFF_LOGIN_INFO_FIELD.map((key) => {
+        if (data[key]) {
+            userInfo[key] = data[key];
         }
     })
-    return subscription;
+    return userInfo;
 }
