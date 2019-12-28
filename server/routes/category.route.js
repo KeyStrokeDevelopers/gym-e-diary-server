@@ -1,14 +1,11 @@
 import express from 'express'
+import { saveCategoryData, getCategoryData } from '../controllers/category.controllers'
 const router = express.Router()
 
 
-router.get('/', (req, res) => {
-    res.send('category get route')
-})
+router.get('/', getCategoryData)
 
-router.post('/', (req, res) => {
-    res.send('category post route')
-})
+router.post('/', saveCategoryData)
 
 router.put('/:categoryId', (req, res) => {
     res.send('category put route')

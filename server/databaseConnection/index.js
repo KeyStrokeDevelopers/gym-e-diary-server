@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 require('dotenv').config()
 
+mongoose.Promise = global.Promise;
+
 connectedToDatabase('gym-e-master');
 
 export function connectedToDatabase(dbName) {

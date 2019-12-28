@@ -10,6 +10,14 @@ const SMS_SUBSCRIPTION_FIELD = ['smsPackage', 'smsPackPrice', 'smsPackPurchaseDa
 
 const STAFF_LOGIN_INFO_FIELD = ['accessLevel', 'empName', 'empAddress', 'empContact', 'empEmail', 'empCode', 'joiningDate', 'salaryDate', 'empDob', 'empStatus', 'deactiveDate']
 
+const BANK_FIELD = ['bankName','accountNumber','ifsc','upi','accountHolder','swipe','status'];
+
+const CATEGORY_FIELD = ['categoryType','category','status'];
+
+const PACKAGE_FIELD = ['packName','packPrice','packDuration','packDetails','status'];
+
+const PAYMENT_METHOD_FIELD = ['paymentMethod','status']
+
 const JWT_SECRET = 'ssfwqwjsdafnsaddfc341knklsjh143l34';
 
 const BCRYPT_SALT_ROUNDS = 12;
@@ -22,5 +30,9 @@ export {
     SMS_SUBSCRIPTION_FIELD,
     JWT_SECRET,
     BCRYPT_SALT_ROUNDS,
-    STAFF_LOGIN_INFO_FIELD
+    CATEGORY_FIELD,
+    STAFF_LOGIN_INFO_FIELD,
+    PACKAGE_FIELD,
+    PAYMENT_METHOD_FIELD,
+    BANK_FIELD
 }

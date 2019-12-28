@@ -1,14 +1,11 @@
 import express from 'express'
+import { saveBankData, getBankData} from '../controllers/bank.controllers'
 const router = express.Router()
 
 
-router.get('/', (req, res) => {
-    res.send('bank get route')
-})
+router.get('/', getBankData);
 
-router.post('/', (req, res) => {
-    res.send('bank post route')
-})
+router.post('/', saveBankData)
 
 router.put('/:bankId', (req, res) => {
     res.send('bank put route')

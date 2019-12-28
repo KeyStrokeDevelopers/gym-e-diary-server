@@ -1,14 +1,11 @@
 import express from 'express'
+import { savePaymentMethodData, getPaymentMethodData } from '../controllers/paymentMethod.controllers'
 const router = express.Router()
 
 
-router.get('/', (req, res) => {
-    res.send('paymentMethod get route')
-})
+router.get('/', getPaymentMethodData);
 
-router.post('/', (req, res) => {
-    res.send('paymentMethod post route')
-})
+router.post('/', savePaymentMethodData);
 
 router.put('/:paymentMethodId', (req, res) => {
     res.send('paymentMethod put route')

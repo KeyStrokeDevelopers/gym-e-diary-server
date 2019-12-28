@@ -1,14 +1,11 @@
 import express from 'express'
+import { savePackageData, getPackageData } from '../controllers/package.controllers'
 const router = express.Router()
 
 
-router.get('/', (req, res) => {
-    res.send('package get route')
-})
+router.get('/', getPackageData)
 
-router.post('/', (req, res) => {
-    res.send('package post route')
-})
+router.post('/', savePackageData)
 
 router.put('/:packageId', (req, res) => {
     res.send('package put route')

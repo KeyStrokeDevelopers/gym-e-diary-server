@@ -3,13 +3,9 @@ import MasterInfo from '../models/masterInfo.model'
 import GymInfo from '../models/gymInfo.model';
 import Access from '../models/access.model';
 import Subscription from '../models/subscription.model';
-import Package from '../models/package.model';
-import SmsPackage from '../models/smsPackage.model';
 import SmsSubscription from '../models/smsSubscription.model';
-import {
-    gymInfoField, accessLevelField, subscriptionField,
-    staffInfoField, smsSubscriptionField
-} from '../constant/fieldFilter'
+import { GYM_INFO_FIELD, STAFF_INFO_FIELD, SUBSCRIPTION_FIELD, ACCESS_LEVEL_FIELD, SMS_SUBSCRIPTION_FIELD } from '../constant'
+import { dataFilter } from '../constant/fieldFilter'
 import { connectedToDatabase } from '../databaseConnection';
 import bcrypt from 'bcryptjs';
 import { BCRYPT_SALT_ROUNDS } from '../constant'
@@ -55,11 +51,11 @@ export const saveGymInfo = async (req, res) => {
         /**
          * Filter field 
          */
-        const gymInfo = gymInfoField(req.body);
-        const accessLevelF = accessLevelField(req.body);
-        const subscription = subscriptionField(req.body);
-        const staffInfo = staffInfoField(req.body);
-        const smsSubscription = smsSubscriptionField(req.body)
+        const gymInfo = dataFilter(req.body, GYM_INFO_FIELD);
+        const accessLevelF = dataFilter(req.body, ACCESS_LEVEL_FIELD);
+        const subscription = dataFilter(req.body, SUBSCRIPTION_FIELD);
+        const staffInfo = dataFilter(req.body, STAFF_INFO_FIELD);
+        const smsSubscription = dataFilter(req.body, SMS_SUBSCRIPTION_FIELD)
         const masterInfo = {};
 
         accessLevelF.accessLevel = 'Adminstrator'
