@@ -3,12 +3,12 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema;
 
 const bankSchema = new Schema({
-    bankName: { type: String, required: true },
-    accountNumber: { type: String, required: true },
+    bankName: { type: String, required: true, unique: true },
+    accountNumber: { type: String, required: true, unique: true },
     ifsc: { type: String, required: true },
-    upi: { type: String },
+    upi: { type: String, unique: true },
     accountHolder: { type: String, required: true },
-    swipe: { type: Boolean, required: true },
+    swipe: { type: Boolean, default: false },
     status: { type: Number, default: 1 }
 });
 
