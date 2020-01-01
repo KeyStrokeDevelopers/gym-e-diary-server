@@ -4,6 +4,7 @@ import GymInfo from '../models/gymInfo.model';
 import Access from '../models/access.model';
 import Subscription from '../models/subscription.model';
 import { loginStaffInfo } from '../constant/fieldFilter';
+import Staff from '../models/staff.model';
 
 export const getToken = async (req, res) => {
     try {
@@ -46,4 +47,14 @@ export const getToken = async (req, res) => {
         res.status(401).send(err);
     }
 
+}
+
+export const getStaffData = async (req, res) => {
+    try {
+        const staffData = await Staff.find();
+        res.status(200).send(staffData);
+    } catch (err) {
+        console.log('error-----', err);
+        res.status(401).send(err);
+    }
 }

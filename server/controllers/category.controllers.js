@@ -29,7 +29,40 @@ export const getCategoryData = async (req, res) => {
         const categoryData = await Category.find();
         res.status(200).send(categoryData);
     } catch (err) {
-        console.log('error----',err)
+        console.log('error----', err)
         res.status(400).send(err);
+    }
+}
+
+export const updateCategoryData = async (req, res) => {
+    try {
+
+        const isUpdated = await Category.update({ _id: req.body._id }, { $set: req.body })
+        if (isUpdated) {
+            let updatedCategoryData = await Category.find();
+            res.send(updatedCategoryData);
+            return;
+        }
+        res.status(400).send({ message: 'Category data is not updated' })
+
+    } catch (err) {
+        console.log('error----', err)
+        res.status(400).send(err)
+    }
+}
+
+export const deleteCategoryData = async (req, res) => {
+    try {
+        const isDelete = await Category.update({ _id: req.body.dataId }, { $set: { status: 0 } })
+        if (isDelete) {
+            let updatedCategoryData = await Category.find();
+            res.send(updatedCategoryData);
+            return;
+        }
+        res.status(400).send({ message: 'Category data is not deleted' })
+
+    } catch (err) {
+        console.log('error----', err)
+        res.status(400).send(err)
     }
 }

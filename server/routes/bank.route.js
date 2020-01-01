@@ -1,5 +1,5 @@
 import express from 'express'
-import { saveBankData, getBankData} from '../controllers/bank.controllers'
+import { saveBankData, getBankData, updateBankData, deleteBankData } from '../controllers/bank.controllers'
 const router = express.Router()
 
 
@@ -7,13 +7,10 @@ router.get('/', getBankData);
 
 router.post('/', saveBankData)
 
-router.put('/:bankId', (req, res) => {
-    res.send('bank put route')
-})
+router.delete('/', deleteBankData)
 
-router.delete('/:bankId', (req, res) => {
-    res.send('bank delete route')
-})
+router.put('/', updateBankData)
+
 
 
 module.exports = router
