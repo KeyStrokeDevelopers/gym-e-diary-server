@@ -1,5 +1,5 @@
 import express from 'express'
-import { savePackageData, getPackageData } from '../controllers/package.controllers'
+import { savePackageData, getPackageData, updatePackageData, deletePackageData } from '../controllers/package.controllers'
 const router = express.Router()
 
 
@@ -7,13 +7,9 @@ router.get('/', getPackageData)
 
 router.post('/', savePackageData)
 
-router.put('/:packageId', (req, res) => {
-    res.send('package put route')
-})
+router.put('/', updatePackageData)
 
-router.delete('/:packageId', (req, res) => {
-    res.send('package delete route')
-})
+router.delete('/', deletePackageData)
 
 
 module.exports = router

@@ -1,5 +1,5 @@
 import express from 'express'
-import { savePaymentMethodData, getPaymentMethodData } from '../controllers/paymentMethod.controllers'
+import { savePaymentMethodData, getPaymentMethodData, updatePaymentMethodData, deletePaymentMethodData } from '../controllers/paymentMethod.controllers'
 const router = express.Router()
 
 
@@ -7,13 +7,9 @@ router.get('/', getPaymentMethodData);
 
 router.post('/', savePaymentMethodData);
 
-router.put('/:paymentMethodId', (req, res) => {
-    res.send('paymentMethod put route')
-})
+router.put('/', updatePaymentMethodData);
 
-router.delete('/:paymentMethodId', (req, res) => {
-    res.send('paymentMethod delete route')
-})
+router.delete('/', deletePaymentMethodData);
 
 
 module.exports = router

@@ -1,5 +1,5 @@
 import express from 'express'
-import { saveCategoryData, getCategoryData } from '../controllers/category.controllers'
+import { saveCategoryData, getCategoryData, updateCategoryData, deleteCategoryData } from '../controllers/category.controllers'
 const router = express.Router()
 
 
@@ -7,13 +7,9 @@ router.get('/', getCategoryData)
 
 router.post('/', saveCategoryData)
 
-router.put('/:categoryId', (req, res) => {
-    res.send('category put route')
-})
+router.put('/', updateCategoryData)
 
-router.delete('/:categoryId', (req, res) => {
-    res.send('category delete route')
-})
+router.delete('/', deleteCategoryData)
 
 
 module.exports = router

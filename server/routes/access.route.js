@@ -1,15 +1,11 @@
 import express from 'express'
-import Access from '../models/access.model';
+import { getAccessData, saveAccessData } from '../controllers/access.controllers'
 const router = express.Router()
 
 
-router.get('/', (req, res) => {
-    res.send('access get route')
-})
+router.get('/', getAccessData);
 
-router.post('/', (req, res) => {
-    res.send('access post route')
-})
+router.post('/', saveAccessData);
 
 router.put('/:accessId', (req, res) => {
     res.send('access put route')

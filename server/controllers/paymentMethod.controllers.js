@@ -23,7 +23,42 @@ export const getPaymentMethodData = async (req, res) => {
         const paymentMethodData = await PaymentMethod.find();
         res.status(200).send(paymentMethodData);
     } catch (err) {
-        console.log('error----',err)
+        console.log('error----', err)
         res.status(400).send(err);
+    }
+}
+
+
+
+export const updatePaymentMethodData = async (req, res) => {
+    try {
+
+        const isUpdated = await PaymentMethod.update({ _id: req.body._id }, { $set: req.body })
+        if (isUpdated) {
+            let updatedPaymentMethodData = await PaymentMethod.find();
+            res.send(updatedPaymentMethodData);
+            return;
+        }
+        res.status(400).send({ message: 'PaymentMethod data is not updated' })
+
+    } catch (err) {
+        console.log('error----', err)
+        res.status(400).send(err)
+    }
+}
+
+export const deletePaymentMethodData = async (req, res) => {
+    try {
+        const isDelete = await PaymentMethod.update({ _id: req.body.dataId }, { $set: { status: 0 } })
+        if (isDelete) {
+            let updatedPaymentMethodData = await PaymentMethod.find();
+            res.send(updatedPaymentMethodData);
+            return;
+        }
+        res.status(400).send({ message: 'PaymentMethod data is not deleted' })
+
+    } catch (err) {
+        console.log('error----', err)
+        res.status(400).send(err)
     }
 }
