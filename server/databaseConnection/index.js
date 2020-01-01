@@ -1,7 +1,9 @@
 import mongoose from 'mongoose'
+// import mongoDBErrors from 'mongoose-mongodb-errors'
 require('dotenv').config()
 
 mongoose.Promise = global.Promise;
+//mongoose.plugin(mongoDBErrors);
 
 connectedToDatabase('gym-e-master');
 

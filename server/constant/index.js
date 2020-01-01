@@ -16,7 +16,9 @@ const CATEGORY_FIELD = ['categoryType','category','status'];
 
 const PACKAGE_FIELD = ['packName','packPrice','packDuration','packDetails','status'];
 
-const PAYMENT_METHOD_FIELD = ['paymentMethod','status']
+const PAYMENT_METHOD_FIELD = ['paymentMethod','status'];
+
+const REGISTER_FIELD = ['contactNumber','memberName','favourTitle','favourOf','alternatContact','email','dob','age','postalAdd','occupation','bloodGroup','maritalStatus','anniversary','purpose','query','package','addOnClass','packageDisc', 'classDisc', 'payable','paidAmount','balance','paymentMode','activation','fingerCode','referredBy']
 
 const JWT_SECRET = 'ssfwqwjsdafnsaddfc341knklsjh143l34';
 
@@ -34,5 +36,6 @@ export {
     STAFF_LOGIN_INFO_FIELD,
     PACKAGE_FIELD,
     PAYMENT_METHOD_FIELD,
-    BANK_FIELD
+    BANK_FIELD,
+    REGISTER_FIELD
 }

@@ -7,6 +7,7 @@ import subscription from './subscription.route'
 import packageInfo from './package.route'
 import paymentMethod from './paymentMethod.route'
 import category from './category.route'
+import registration from './registration.route'
 
 const router = express.Router()
 
@@ -16,8 +17,9 @@ router.use('/bank', bank)
 router.use('/gymInfo', gymInfo)
 router.use('/subscription', subscription)
 router.use('/package', packageInfo)
-router.use('./paymentMethod', paymentMethod)
-router.use('./category', category)
+router.use('/paymentMethod', paymentMethod)
+router.use('/category', category)
+router.use('/registration', registration)
 
 /**
  * If route is not match
