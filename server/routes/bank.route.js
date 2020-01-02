@@ -1,15 +1,16 @@
 import express from 'express'
 import { saveBankData, getBankData, updateBankData, deleteBankData } from '../controllers/bank.controllers'
+import { checkAuth } from '../auth';
 const router = express.Router()
 
 
-router.get('/', getBankData);
+router.get('/', checkAuth, getBankData);
 
-router.post('/', saveBankData)
+router.post('/', checkAuth, saveBankData)
 
-router.delete('/', deleteBankData)
+router.delete('/', checkAuth, deleteBankData)
 
-router.put('/', updateBankData)
+router.put('/', checkAuth, updateBankData)
 
 
 

@@ -1,15 +1,16 @@
 import express from 'express'
 import { savePaymentMethodData, getPaymentMethodData, updatePaymentMethodData, deletePaymentMethodData } from '../controllers/paymentMethod.controllers'
+import { checkAuth } from '../auth'
+
 const router = express.Router()
 
+router.get('/', checkAuth, getPaymentMethodData);
 
-router.get('/', getPaymentMethodData);
+router.post('/', checkAuth, savePaymentMethodData);
 
-router.post('/', savePaymentMethodData);
+router.put('/', checkAuth, updatePaymentMethodData);
 
-router.put('/', updatePaymentMethodData);
-
-router.delete('/', deletePaymentMethodData);
+router.delete('/', checkAuth, deletePaymentMethodData);
 
 
 module.exports = router

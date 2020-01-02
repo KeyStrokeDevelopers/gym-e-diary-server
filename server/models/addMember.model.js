@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema;
 
-const registerSchema = new Schema({
+const addMemberSchema = new Schema({
     contactNumber: { type: String, required: true },
     memberName: { type: String, required: true },
     favourTitle: { type: String, required: true },
@@ -31,4 +31,4 @@ const registerSchema = new Schema({
     referredBy: {type: String}
 });
 
-module.exports = mongoose.model('Register', registerSchema);
+module.exports = mongoose.model('AddMember', addMemberSchema);

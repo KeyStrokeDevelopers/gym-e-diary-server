@@ -1,15 +1,16 @@
 import express from 'express'
 import { saveCategoryData, getCategoryData, updateCategoryData, deleteCategoryData } from '../controllers/category.controllers'
+import { checkAuth } from '../auth'
 const router = express.Router()
 
 
-router.get('/', getCategoryData)
+router.get('/', checkAuth, getCategoryData)
 
-router.post('/', saveCategoryData)
+router.post('/', checkAuth, saveCategoryData)
 
-router.put('/', updateCategoryData)
+router.put('/', checkAuth, updateCategoryData)
 
-router.delete('/', deleteCategoryData)
+router.delete('/', checkAuth, deleteCategoryData)
 
 
 module.exports = router

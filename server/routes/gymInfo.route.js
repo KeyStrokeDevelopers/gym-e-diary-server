@@ -1,19 +1,20 @@
 import express from 'express'
 import { saveGymInfo } from '../controllers/gymInfo.controllers'
+import { checkAuth } from '../auth'
+
 const router = express.Router()
 
-
-router.get('/', (req, res) => {
+router.get('/', checkAuth, (req, res) => {
     res.send({ 'gym get route': req.body })
 })
 
-router.post('/', saveGymInfo);
+router.post('/', checkAuth, saveGymInfo);
 
-router.put('/:gymId', (req, res) => {
+router.put('/:gymId', checkAuth, (req, res) => {
     res.send('gym put route')
 })
 
-router.delete('/:gymId', (req, res) => {
+router.delete('/:gymId', checkAuth, (req, res) => {
     res.send('gym delete route')
 })
 

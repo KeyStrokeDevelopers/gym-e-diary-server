@@ -1,11 +1,12 @@
 import express from 'express'
 import { getAccessData, saveAccessData } from '../controllers/access.controllers'
+import { checkAuth } from '../auth'
 const router = express.Router()
 
 
-router.get('/', getAccessData);
+router.get('/', checkAuth, getAccessData);
 
-router.post('/', saveAccessData);
+router.post('/', checkAuth, saveAccessData);
 
 router.put('/:accessId', (req, res) => {
     res.send('access put route')

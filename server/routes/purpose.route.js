@@ -1,15 +1,16 @@
 import express from 'express'
 import { savePurposeData, getPurposeData, updatePurposeData, deletePurposeData } from '../controllers/purpose.controllers'
+import { checkAuth } from '../auth'
+
 const router = express.Router()
 
+router.get('/', checkAuth, getPurposeData);
 
-router.get('/', getPurposeData);
+router.post('/', checkAuth, savePurposeData)
 
-router.post('/', savePurposeData)
+router.delete('/', checkAuth, deletePurposeData)
 
-router.delete('/', deletePurposeData)
-
-router.put('/', updatePurposeData)
+router.put('/', checkAuth, updatePurposeData)
 
 
 

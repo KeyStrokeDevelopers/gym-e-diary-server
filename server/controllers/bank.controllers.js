@@ -8,9 +8,9 @@ import { BANK_FIELD } from '../constant'
  * @param {*} res 
  */
 export const saveBankData = async (req, res) => {
-    console.log('req.body ---in save bank data--', req.body);
     try {
         const bankData = dataFilter(req.body, BANK_FIELD);
+        console.log('bank data after filter ----', bankData)
         const savedData = await Bank.create(bankData);
         setTimeout(() => {
             res.status(200).send(savedData)

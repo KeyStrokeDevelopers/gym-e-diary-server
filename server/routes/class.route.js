@@ -1,15 +1,16 @@
 import express from 'express'
 import { saveClassData, getClassData, updateClassData, deleteClassData } from '../controllers/class.controllers'
+import { checkAuth } from '../auth'
+
 const router = express.Router()
 
+router.get('/', checkAuth, getClassData)
 
-router.get('/', getClassData)
+router.post('/', checkAuth, saveClassData)
 
-router.post('/', saveClassData)
+router.put('/', checkAuth, updateClassData)
 
-router.put('/', updateClassData)
-
-router.delete('/', deleteClassData)
+router.delete('/', checkAuth, deleteClassData)
 
 
 module.exports = router
