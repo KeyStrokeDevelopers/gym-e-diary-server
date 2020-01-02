@@ -55,7 +55,7 @@ export const getStaffData = async (req, res) => {
     }
 }
 
-export const saveRegistrationData = async (req, res) => {
+export const saveStaffData = async (req, res) => {
     try {
         const staffInfo = dataFilter(req.body, STAFF_INFO_FIELD);
 
