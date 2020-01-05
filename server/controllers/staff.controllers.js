@@ -59,13 +59,57 @@ export const saveStaffData = async (req, res) => {
     try {
         const staffInfo = dataFilter(req.body, STAFF_INFO_FIELD);
 
-        const bcryptPassword = await bcrypt.hash(staffInfo.empContact, BCRYPT_SALT_ROUNDS);
-        staffInfo.empPassword = bcryptPassword;
-        
+        const isExist = await Staff.findOne(({ staffContact: staffInfo.staffContact }));
+        if (isExist) {
+            res.status(401).send({ message: 'Staff contact number already registered' })
+            return
+        }
+
+        const bcryptPassword = await bcrypt.hash(staffInfo.staffContact, BCRYPT_SALT_ROUNDS);
+        staffInfo.staffPassword = bcryptPassword;
+        staffInfo.staffDob = new Date(req.body.staffDob).getTime();
+        if (req.body.staffJoindDate) {
+            staffInfo.staffDob = new Date(req.body.staffDob).getTime();
+        }
+
         await Staff.create(staffInfo);
         res.status(200).send({ message: 'Staff Record save successfully' })
     } catch (err) {
         console.log('error--', err)
         res.status(400).send(err);
+    }
+}
+
+
+export const updateStaffData = async (req, res) => {
+    try {
+
+        const isUpdated = await Staff.update({ _id: req.body._id }, { $set: req.body })
+        if (isUpdated) {
+            let updatedStaffData = await Staff.find();
+            res.send(updatedStaffData);
+            return;
+        }
+        res.status(400).send({ message: 'Staff data is not updated' })
+
+    } catch (err) {
+        console.log('error----', err)
+        res.status(400).send(err)
+    }
+}
+
+export const deleteStaffData = async (req, res) => {
+    try {
+        const isDelete = await Staff.update({ _id: req.body.dataId }, { $set: { status: 0 } })
+        if (isDelete) {
+            let updatedStaffData = await Staff.find();
+            res.send(updatedStaffData);
+            return;
+        }
+        res.status(400).send({ message: 'Staff data is not deleted' })
+
+    } catch (err) {
+        console.log('error----', err)
+        res.status(400).send(err)
     }
 }

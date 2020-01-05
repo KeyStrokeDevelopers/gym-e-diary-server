@@ -17,14 +17,14 @@ passport.use(
     'login',
     new localStrategy(
         {
-            usernameField: 'empContact',
-            passwordField: 'empPassword',
+            usernameField: 'staffContact',
+            passwordField: 'staffPassword',
             session: false
         },
-        async (empContact, empPassword, done) => {
+        async (staffContact, staffPassword, done) => {
             try {
-                const staff = await Staff.findOne({ empContact });
-                const isPasswordMatch = await bcrypt.compare(empPassword, staff.empPassword)
+                const staff = await Staff.findOne({ staffContact });
+                const isPasswordMatch = await bcrypt.compare(staffPassword, staff.staffPassword)
                 if (!staff) {
                     return done(null, false);
                 } else if (isPasswordMatch) {
@@ -44,10 +44,10 @@ passport.use(
     new localStrategy(
         {
             usernameField: 'gymContact',
-            passwordField: 'empPassword',
+            passwordField: 'staffPassword',
             session: false
         },
-        async (gymContact, empPassword, done) => {
+        async (gymContact, staffPassword, done) => {
             try {
                 let isDbConSuccess = await connectedToDatabase('gym-e-master');
                 if (!isDbConSuccess) {

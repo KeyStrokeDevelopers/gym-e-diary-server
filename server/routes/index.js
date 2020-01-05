@@ -26,6 +26,9 @@ router.use('/addMember', addMember)
 router.use('/class', classes)
 router.use('/purpose', purpose)
 router.use('/registration', registration)
+router.use('/resetPassword', (req, res) => {
+    res.status(200).send({ message: 'New password is send to your registered mobile number' })
+})
 
 /**
  * If route is not match

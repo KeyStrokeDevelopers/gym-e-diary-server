@@ -18,7 +18,7 @@ import { BCRYPT_SALT_ROUNDS } from '../constant'
 
 export const saveRegistrationData = async (req, res) => {
     try {
-
+        await connectedToDatabase('gym-e-master');
         /**
          * Filter field 
          */
@@ -33,11 +33,14 @@ export const saveRegistrationData = async (req, res) => {
         accessLevelF.status = '2'
 
         /**
-         * Set default Password (empContact is deafult password) using bcrypt
+         * Set default Password (staffContact is deafult password) using bcrypt
          */
-        const bcryptPassword = await bcrypt.hash(staffInfo.empContact, BCRYPT_SALT_ROUNDS);
-        staffInfo.empPassword = bcryptPassword;
-
+        const bcryptPassword = await bcrypt.hash(staffInfo.staffContact, BCRYPT_SALT_ROUNDS);
+        staffInfo.staffPassword = bcryptPassword;
+        staffInfo.staffDob = new Date(req.body.staffDob).getTime();
+        if (req.body.staffJoindDate) {
+            staffInfo.staffDob = new Date(req.body.staffDob).getTime();
+        }
         /**
          * , Set new database name
          */
@@ -47,7 +50,12 @@ export const saveRegistrationData = async (req, res) => {
          * Create master information in master database
          */
         masterInfo.gymContact = gymInfo.branchContact;
-        masterInfo.newDbName = newDb
+        masterInfo.newDbName = newDb;
+        const isExist = await MasterInfo.findOne(({ gymContact: gymInfo.gymContact }));
+        if (isExist) {
+            res.status(401).send({ message: 'GYM contact number already registered' })
+            return
+        }
         await MasterInfo.create(masterInfo);
 
         /**
@@ -69,7 +77,7 @@ export const saveRegistrationData = async (req, res) => {
         await SmsSubscription.create(smsSubscription);
         res.status(200).send({ message: 'Record save successfully' })
     } catch (err) {
-        console.log('errror--', err)
+        console.log('error--', err)
         res.status(400).send(err);
     }
 }

@@ -7,13 +7,12 @@ const staffSchema = new Schema({
   staffName: { type: String, default: null },
   staffAddress: { type: String, default: null },
   staffContact: { type: String, required: true, unique: true },
-  staffEmail: { type: String, default: null },
+  staffEmail: { type: String, default: null, unique: true },
   staffCode: { type: String, default: null },
   staffPassword: { type: String, default: null },
-  joiningDate: { type: Date, default: new Date().getTime() },
+  staffJoiningDate: { type: Date, default: Date.now() },
   salaryDate: { type: Date, default: null },
-  staffDob: { type: Date },
-  staffStatus: { type: String, default: null },
+  staffDob: { type: Date, required: true },
   deactiveDate: { type: String, default: null },
   status: { type: Number, default: 1 }
 });

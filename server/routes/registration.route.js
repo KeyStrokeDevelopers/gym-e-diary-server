@@ -2,6 +2,6 @@ import express from 'express'
 import { saveRegistrationData } from '../controllers/registration.controllers'
 const router = express.Router()
 
-router.get('/', saveRegistrationData)
+router.post('/', saveRegistrationData)
 
 module.exports = router

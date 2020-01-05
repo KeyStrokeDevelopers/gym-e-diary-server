@@ -10,7 +10,17 @@ import { BANK_FIELD } from '../constant'
 export const saveBankData = async (req, res) => {
     try {
         const bankData = dataFilter(req.body, BANK_FIELD);
-        console.log('bank data after filter ----', bankData)
+
+        const isExist = await Bank.findOne(({
+            $and: [{ accountNumber: bankData.accountNumber },
+            { upi: bankData.upi }]
+        }));
+        if (isExist) {
+            res.status(401).send({ message: 'Account number or upi id already registered' })
+            return
+        }
+
+
         const savedData = await Bank.create(bankData);
         setTimeout(() => {
             res.status(200).send(savedData)
@@ -35,7 +45,6 @@ export const getBankData = async (req, res) => {
 }
 
 export const updateBankData = async (req, res) => {
-    console.log('req.id in updated bank data ---', req.body._id)
     try {
 
         const isUpdated = await Bank.update({ _id: req.body._id }, { $set: req.body })
