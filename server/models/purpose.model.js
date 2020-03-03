@@ -1,9 +1,9 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema;
 
 const purposeSchema = new Schema({
-    purposeName: { type: String, required: true },
+    purposeName: { type: String, required: true, unique: true },
     nSunday: { type: String, default: null },
     nMonday: { type: String, default: null },
     nTuesday: { type: String, default: null },
@@ -19,7 +19,6 @@ const purposeSchema = new Schema({
     wFriday: { type: String, default: null },
     wSaturday: { type: String, default: null },
     status: { type: Number, default: 1 }
-
 });
 
 module.exports = mongoose.model('Purpose', purposeSchema);

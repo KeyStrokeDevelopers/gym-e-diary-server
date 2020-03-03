@@ -1,3 +1,6 @@
+const switchConnection = require('../databaseConnection/switchDb');
+const { fileDataFilter, GetObjectData } = require('../constant/fieldFilter');
+const { GYM_INFO_FIELD } = require('../constant');
 
 /**
  * 
@@ -5,17 +8,72 @@
  * @param {*} res 
  */
 
-export const saveGymInfo = async (req, res) => {
+const saveGymInfo = async (req, res) => {
 
     //Todo
 
     try {
         res.status(200).send({ message: ' Need to be done gym info save controllers' })
     } catch (err) {
-        console.log('errror--', err)
-        res.status(400).send(err);
+        console.log('error--', err)
+        res.status(400).send(err)
     }
 }
 
-// If error occour at any postion then remove database from master and all recored remove from db
-// TODO
+const getGymInfoData = async (req, res) => {
+    try {
+        const GymInfo = await switchConnection(req.user.newDbName, "GymInfo");
+        const Counter = await switchConnection(req.user.newDbName, "Counter");
+        const counterData = await Counter.find();
+        const GymInfoData = await GymInfo.findOne();
+        let gym_info_data = GetObjectData(GymInfoData, GYM_INFO_FIELD);
+        gym_info_data.isCounterOn = counterData.length >= 1 ? true : false;
+        res.status(200).send(gym_info_data);
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).send(err)
+    }
+}
+
+const updateGymInfo = async (req, res) => {
+    try {
+        const GymInfo = await switchConnection(req.user.newDbName, "GymInfo");
+        const updateGymInfoData = fileDataFilter(req.body, GYM_INFO_FIELD);
+        if (req.file) {
+            updateGymInfoData.branchLogo = req.file && req.file.filename;
+        }
+        const Counter = await switchConnection(req.user.newDbName, "Counter");
+        const counterData = await Counter.find();
+        if (req.body.preFix && counterData.length >= 1) {
+            await counterData.updateOne({ _id: counterData[0]._id }, { $set: { preFix: req.body.preFix } });
+        }
+        if (counterData.length < 1) {
+            if (req.body.seriesStartFrom) {
+                let counter_data = {};
+                counter_data.no = req.body.seriesStartFrom;
+                if (req.body.preFix) {
+                    counter_data.preFix = req.body.preFix;
+                }
+                await Counter.create(counter_data);
+            }
+        }
+        const isUpdated = await GymInfo.update({ _id: req.body._id }, { $set: updateGymInfoData })
+        if (isUpdated) {
+            let updatedGymInfoData = await GymInfo.find();
+            res.send(updatedGymInfoData);
+            return;
+        }
+        res.status(200).send([{}]);
+        return
+        //throw new Error('GymInfo data is not updated');
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).send(err)
+    }
+}
+
+module.exports = {
+    saveGymInfo,
+    getGymInfoData,
+    updateGymInfo
+};

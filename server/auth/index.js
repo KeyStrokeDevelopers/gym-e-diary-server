@@ -1,17 +1,16 @@
 
-import passport from "passport";
-import passportJWT from "passport-jwt";
-import passportLocal from 'passport-local';
-import bcrypt from 'bcryptjs';
-import Staff from '../models/staff.model';
-import MasterInfo from '../models/masterInfo.model';
-import { connectedToDatabase } from '../databaseConnection';
-import { JWT_SECRET } from '../constant';
+const passport = require("passport");
+const passportJWT = require("passport-jwt");
+const passportLocal = require('passport-local');
+const bcrypt = require('bcryptjs');
+const { JWT_SECRET } = require('../constant');
+const switchConnection = require('../databaseConnection/switchDb');
 
 var JwtStrategy = passportJWT.Strategy;
 var ExtractJwt = passportJWT.ExtractJwt;
 var localStrategy = passportLocal.Strategy;
 
+let dbName;
 
 passport.use(
     'login',
@@ -23,12 +22,13 @@ passport.use(
         },
         async (staffContact, staffPassword, done) => {
             try {
+                const Staff = await switchConnection(dbName, "Staff");
                 const staff = await Staff.findOne({ staffContact });
                 const isPasswordMatch = await bcrypt.compare(staffPassword, staff.staffPassword)
                 if (!staff) {
                     return done(null, false);
                 } else if (isPasswordMatch) {
-                    return done(null, staff);
+                    return done(null, dbName);
                 }
                 return done(null, false);
             } catch (err) {
@@ -43,27 +43,19 @@ passport.use(
     'checkInMaster',
     new localStrategy(
         {
-            usernameField: 'gymContact',
+            usernameField: 'branchContact',
             passwordField: 'staffPassword',
+
             session: false
         },
-        async (gymContact, staffPassword, done) => {
+        async (branchContact, staffPassword, done) => {
             try {
-                let isDbConSuccess = await connectedToDatabase('gym-e-master');
-                if (!isDbConSuccess) {
-                    return done(null, false)
-                }
-                const masterInfo = await MasterInfo.findOne({ gymContact });
+                const MasterInfo = await switchConnection("gym-e-master", "MasterInfo");
+                const masterInfo = await MasterInfo.findOne({ branchContact });
                 if (!masterInfo) {
                     return done(null, false);
                 } else {
-                    /**
-                    * Connect to database of user
-                    */
-                    isDbConSuccess = await connectedToDatabase(masterInfo.newDbName);
-                    if (!isDbConSuccess) {
-                        return done(null, false)
-                    }
+                    dbName = masterInfo.newDbName;
                     return done(null, masterInfo)
                 }
             } catch (err) {
@@ -82,11 +74,13 @@ passport.use(
     'jwt',
     new JwtStrategy(jwtOptions, async (jwt_payload, done) => {
         try {
+            const Staff = await switchConnection(jwt_payload.newDbName, "Staff");
             const staff = await Staff.findById(jwt_payload._id);
             if (!staff) {
                 return done(null, false);
             }
-            return done(null, staff);
+
+            return done(null, { newDbName: jwt_payload.newDbName, loginId: jwt_payload._id });
         } catch (err) {
             return done(err, false);
         }
@@ -94,11 +88,12 @@ passport.use(
 )
 
 
+const checkAuth = passport.authenticate('jwt', { session: false });
+const userLogin = passport.authenticate('login', { session: false });
+const checkMaster = passport.authenticate('checkInMaster', { session: false });
 
-export const checkAuth = passport.authenticate('jwt', { session: false });
-export const
-    userLogin = passport.authenticate('login', { session: false });
-export const checkMaster = passport.authenticate('checkInMaster', { session: false });
-
-
-
+module.exports = {
+    checkAuth,
+    userLogin,
+    checkMaster
+};

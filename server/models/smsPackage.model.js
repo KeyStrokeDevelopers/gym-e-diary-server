@@ -1,4 +1,4 @@
-import mongoose, { model } from 'mongoose'
+const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema;
 
@@ -9,4 +9,5 @@ const smsPackageSchema = new Schema({
     status: { type: Number, default: 1 }
 });
 
-export default model('smsPackage', smsPackageSchema);
+const masterSmsPackage = mongoose.model('masterSmsPackage', smsPackageSchema);
+module.exports = masterSmsPackage;

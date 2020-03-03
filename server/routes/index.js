@@ -1,31 +1,73 @@
-import express from 'express'
-import staff from './staff.route'
-import access from './access.route'
-import bank from './bank.route'
-import gymInfo from './gymInfo.route'
-import subscription from './subscription.route'
-import packageInfo from './package.route'
-import paymentMethod from './paymentMethod.route'
-import category from './category.route'
-import addMember from './addMember.route'
-import classes from './class.route'
-import purpose from './purpose.route'
-import registration from './registration.route'
+const express = require('express')
+const staff = require('./staff.route')
+const accessInfo = require('./access.route')
+const gymInfo = require('./gymInfo.route')
+const packageInfo = require('./package.route')
+const paymentMethod = require('./paymentMethod.route')
+const categoryInfo = require('./category.route')
+const addMember = require('./addMember.route')
+const classes = require('./class.route')
+const purpose = require('./purpose.route')
+const enquiry = require('./enquiry.route')
+const registration = require('./registration.route')
+const expenseIncome = require('./expenseIncome.route')
+const measurement = require('./measurement.route')
+const classSubscription = require('./classSubscription.route')
+const vendorPackageSubscription = require('./vendorPackageSubscription.route')
+const media = require('./media.route')
+const purposeSubscription = require('./purposeSubscription.route')
+const productType = require('./productType.route')
+const brandUnit = require('./brandUnit.route')
+const product = require('./product.route')
+const workoutNutrition = require('./workoutNutrition.route')
+const purchase = require('./purchase.route')
+const orderSummary = require('./orderSummary.route')
+const invoiceIn = require('./invoiceIn.route')
+const accountInfo = require('./accountInfo.route')
+const account = require('./account.route')
+const reports = require('./reports.route')
+const attendance = require('./attendance.route')
+const sale = require('./sale.route')
+const sms = require('./sms.route')
+const subscription = require('./subscription.route')
+const staffAttendance = require('./staffAttendance.route')
+
 
 const router = express.Router()
 
-router.use('/staff', staff)
-router.use('/access', access)
-router.use('/bank', bank)
+router.use('/staffInfo', staff)
+router.use('/access', accessInfo)
 router.use('/gymInfo', gymInfo)
 router.use('/subscription', subscription)
 router.use('/package', packageInfo)
 router.use('/paymentMethod', paymentMethod)
-router.use('/category', category)
+router.use('/category', categoryInfo)
 router.use('/addMember', addMember)
-router.use('/class', classes)
+router.use('/classInfo', classes)
 router.use('/purpose', purpose)
 router.use('/registration', registration)
+router.use('/enquiry', enquiry)
+router.use('/expenseIncome', expenseIncome)
+router.use('/measurement', measurement)
+router.use('/classSubscription', classSubscription)
+router.use('/vendorPackageSubscription', vendorPackageSubscription)
+router.use('/media', media)
+router.use('/purposeSubscription', purposeSubscription)
+router.use('/productType', productType)
+router.use('/brandUnit', brandUnit)
+router.use('/product', product)
+router.use('/workoutNutrition', workoutNutrition)
+router.use('/purchase', purchase)
+router.use('/accountInfo', accountInfo)
+router.use('/invoiceIn', invoiceIn)
+router.use('/orderSummary', orderSummary)
+router.use('/account', account)
+router.use('/reports', reports)
+router.use('/attendance', attendance)
+router.use('/staffAttendance', staffAttendance)
+router.use('/sale', sale)
+router.use('/sms', sms)
+router.use('/subscription', subscription)
 router.use('/resetPassword', (req, res) => {
     res.status(200).send({ message: 'New password is send to your registered mobile number' })
 })
@@ -33,6 +75,6 @@ router.use('/resetPassword', (req, res) => {
 /**
  * If route is not match
  */
-router.use('/*', (req, res) => { res.send('Api route not found') })
+router.use('/*', (req, res) => { res.status(400).json({ message: 'Api route not found' }) })
 
 module.exports = router

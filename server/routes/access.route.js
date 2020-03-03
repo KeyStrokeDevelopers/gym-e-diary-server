@@ -1,6 +1,6 @@
-import express from 'express'
-import { getAccessData, saveAccessData } from '../controllers/access.controllers'
-import { checkAuth } from '../auth'
+const express = require('express')
+const { getAccessData, saveAccessData } = require('../controllers/access.controllers')
+const { checkAuth } = require('../auth')
 const router = express.Router()
 
 

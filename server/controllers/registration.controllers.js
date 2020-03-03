@@ -1,14 +1,8 @@
-import Staff from '../models/staff.model';
-import MasterInfo from '../models/masterInfo.model'
-import GymInfo from '../models/gymInfo.model';
-import Access from '../models/access.model';
-import Subscription from '../models/subscription.model';
-import SmsSubscription from '../models/smsSubscription.model';
-import { GYM_INFO_FIELD, STAFF_INFO_FIELD, SUBSCRIPTION_FIELD, ACCESS_LEVEL_FIELD, SMS_SUBSCRIPTION_FIELD } from '../constant'
-import { dataFilter } from '../constant/fieldFilter'
-import { connectedToDatabase } from '../databaseConnection';
-import bcrypt from 'bcryptjs';
-import { BCRYPT_SALT_ROUNDS } from '../constant'
+const { GYM_INFO_FIELD, STAFF_INFO_FIELD, SUBSCRIPTION_FIELD, ACCESS_LEVEL_FIELD, SMS_SUBSCRIPTION_FIELD } = require('../constant')
+const { dataFilter } = require('../constant/fieldFilter')
+const bcrypt = require('bcryptjs')
+const { BCRYPT_SALT_ROUNDS } = require('../constant')
+const switchConnection = require('../databaseConnection/switchDb')
 
 /**
  * 
@@ -16,9 +10,9 @@ import { BCRYPT_SALT_ROUNDS } from '../constant'
  * @param {*} res 
  */
 
-export const saveRegistrationData = async (req, res) => {
+const saveRegistrationData = async (req, res) => {
+    console.log('req.body in save regi-----', req.body)
     try {
-        await connectedToDatabase('gym-e-master');
         /**
          * Filter field 
          */
@@ -33,14 +27,17 @@ export const saveRegistrationData = async (req, res) => {
         accessLevelF.status = '2'
 
         /**
+         * set member no
+         */
+        const memberCounter = {};
+        memberCounter._id = 'counterId';
+
+
+        /**
          * Set default Password (staffContact is deafult password) using bcrypt
          */
         const bcryptPassword = await bcrypt.hash(staffInfo.staffContact, BCRYPT_SALT_ROUNDS);
         staffInfo.staffPassword = bcryptPassword;
-        staffInfo.staffDob = new Date(req.body.staffDob).getTime();
-        if (req.body.staffJoindDate) {
-            staffInfo.staffDob = new Date(req.body.staffDob).getTime();
-        }
         /**
          * , Set new database name
          */
@@ -49,11 +46,15 @@ export const saveRegistrationData = async (req, res) => {
         /**
          * Create master information in master database
          */
-        masterInfo.gymContact = gymInfo.branchContact;
+        masterInfo.branchContact = gymInfo.branchContact;
         masterInfo.newDbName = newDb;
-        const isExist = await MasterInfo.findOne(({ gymContact: gymInfo.gymContact }));
+
+        const MasterInfo = await switchConnection("gym-e-master", "MasterInfo");
+
+        const isExist = await MasterInfo.findOne(({ branchContact: gymInfo.branchContact }));
+
         if (isExist) {
-            res.status(401).send({ message: 'GYM contact number already registered' })
+            res.status(401).send({ error: 'GYM contact number already registered' })
             return
         }
         await MasterInfo.create(masterInfo);
@@ -61,26 +62,35 @@ export const saveRegistrationData = async (req, res) => {
         /**
          * Set new database of user
          */
-        const isDbConSuccess = await connectedToDatabase(newDb);
-        if (!isDbConSuccess) {
-            res.status(401).send({ message: 'Error in new database connection' })
-        }
+
+        const Staff = await switchConnection(newDb, "Staff");
+        const GymInfo = await switchConnection(newDb, "GymInfo");
+        const Subscription = await switchConnection(newDb, "MasterPackageSubscription");
+        const Access = await switchConnection(newDb, "Access");
+        const SmsSubscription = await switchConnection(newDb, "SmsSubscription");
+        const Counter = await switchConnection(newDb, "Counter");
 
         /**
          * Save gym info, staff, access and Subscription data in staff database
          */
         await GymInfo.create(gymInfo);
+        await Counter.create(memberCounter);
         const access = await Access.create(accessLevelF);
         staffInfo.accessLevel = access._id;
         await Staff.create(staffInfo);
         await Subscription.create(subscription);
         await SmsSubscription.create(smsSubscription);
+
         res.status(200).send({ message: 'Record save successfully' })
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err);
+        res.status(400).send(err)
     }
 }
 
-// If error occour at any postion then remove database from master and all recored remove from db
+module.exports = {
+    saveRegistrationData
+};
+
+// If error occour at any postion then remove database =require(master and all recored remove =require(db
 // TODO

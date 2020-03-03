@@ -1,4 +1,4 @@
-import mongoose, { model } from 'mongoose'
+const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema;
 
@@ -10,4 +10,5 @@ const packageSchema = new Schema({
     status: { type: Number, default: 1 }
 });
 
-export default model('PackageInfo', packageSchema);
+const masterPackage = mongoose.model('masterPackage', packageSchema);
+module.exports = masterPackage;

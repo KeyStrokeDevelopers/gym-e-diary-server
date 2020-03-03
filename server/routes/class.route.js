@@ -1,6 +1,6 @@
-import express from 'express'
-import { saveClassData, getClassData, updateClassData, deleteClassData } from '../controllers/class.controllers'
-import { checkAuth } from '../auth'
+const express = require('express')
+const { saveClassData, getClassData, updateClassData, deleteClassData } = require('../controllers/class.controllers')
+const { checkAuth } = require('../auth')
 
 const router = express.Router()
 

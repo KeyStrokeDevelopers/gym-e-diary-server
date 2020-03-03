@@ -1,63 +1,76 @@
-import ClassInfo from '../models/class.model'
-import { dataFilter } from '../constant/fieldFilter'
-import { PACKAGE_FIELD } from '../constant'
-
+const { dataFilter } = require('../constant/fieldFilter')
+const { CLASS_FIELD } = require('../constant')
+const switchConnection = require('../databaseConnection/switchDb')
 /**
  * 
  * @param {*} req 
  * @param {*} res 
  */
-export const saveClassData = async (req, res) => {
+const saveClassData = async (req, res) => {
     try {
-        const classData = dataFilter(req.body, PACKAGE_FIELD);
-        await ClassInfo.create(classData);
-        res.status(200).send({ message: 'Class record add successfully' })
+        const ClassInfo = await switchConnection(req.user.newDbName, "ClassInfo");
+        const classData = dataFilter(req.body, CLASS_FIELD);
+
+        const isExist = await ClassInfo.findOne({ className: classData.className });
+        if (isExist) {
+            throw new Error('Class record is already exist');
+        }
+        const class_data = await ClassInfo.create(classData);
+        res.status(200).send(class_data)
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err);
+        res.status(400).send(err)
     }
 }
 
-export const getClassData = async (req, res) => {
+const getClassData = async (req, res) => {
     try {
+        const ClassInfo = await switchConnection(req.user.newDbName, "ClassInfo");
         const classData = await ClassInfo.find();
         res.status(200).send(classData);
     } catch (err) {
-        console.log('error----', err)
-        res.status(400).send(err);
+        console.log('error--', err)
+        res.status(400).send(err)
     }
 }
 
 
-export const updateClassData = async (req, res) => {
+const updateClassData = async (req, res) => {
     try {
-
+        const ClassInfo = await switchConnection(req.user.newDbName, "ClassInfo");
         const isUpdated = await ClassInfo.update({ _id: req.body._id }, { $set: req.body })
         if (isUpdated) {
             let updatedClassData = await ClassInfo.find();
             res.send(updatedClassData);
             return;
         }
-        res.status(400).send({ message: 'Class data is not updated' })
-
+        throw new Error('Class data is not updated');
     } catch (err) {
-        console.log('error----', err)
+        console.log('error--', err)
         res.status(400).send(err)
     }
 }
 
-export const deleteClassData = async (req, res) => {
+const deleteClassData = async (req, res) => {
     try {
+        const ClassInfo = await switchConnection(req.user.newDbName, "ClassInfo");
         const isDelete = await ClassInfo.update({ _id: req.body.dataId }, { $set: { status: 0 } })
         if (isDelete) {
             let updatedClassData = await ClassInfo.find();
             res.send(updatedClassData);
             return;
         }
-        res.status(400).send({ message: 'Class data is not deleted' })
+        throw new Error('Class data is not deleted');
 
     } catch (err) {
-        console.log('error----', err)
+        console.log('error--', err)
         res.status(400).send(err)
     }
 }
+
+module.exports = {
+    saveClassData,
+    getClassData,
+    updateClassData,
+    deleteClassData
+};

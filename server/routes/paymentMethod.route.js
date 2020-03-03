@@ -1,6 +1,6 @@
-import express from 'express'
-import { savePaymentMethodData, getPaymentMethodData, updatePaymentMethodData, deletePaymentMethodData } from '../controllers/paymentMethod.controllers'
-import { checkAuth } from '../auth'
+const express = require('express')
+const { savePaymentMethodData, getPaymentMethodData, updatePaymentMethodData, deletePaymentMethodData } = require('../controllers/paymentMethod.controllers')
+const { checkAuth } = require('../auth')
 
 const router = express.Router()
 

@@ -1,8 +1,8 @@
-import express from 'express'
-import { saveCategoryData, getCategoryData, updateCategoryData, deleteCategoryData } from '../controllers/category.controllers'
-import { checkAuth } from '../auth'
-const router = express.Router()
+const express = require('express')
+const { saveCategoryData, getCategoryData, updateCategoryData, deleteCategoryData } = require('../controllers/category.controllers')
+const { checkAuth } = require('../auth')
 
+const router = express.Router()
 
 router.get('/', checkAuth, getCategoryData)
 

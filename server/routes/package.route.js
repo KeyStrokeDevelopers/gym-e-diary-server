@@ -1,6 +1,6 @@
-import express from 'express'
-import { savePackageData, getPackageData, updatePackageData, deletePackageData } from '../controllers/package.controllers'
-import { checkAuth } from '../auth'
+const express = require('express')
+const { savePackageData, getPackageData, updatePackageData, deletePackageData } = require('../controllers/vendorPackage.controllers')
+const { checkAuth } = require('../auth')
 
 const router = express.Router()
 

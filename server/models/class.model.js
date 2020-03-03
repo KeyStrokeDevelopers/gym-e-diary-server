@@ -1,26 +1,25 @@
-import mongoose, { model } from 'mongoose'
+const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema;
 
 const classSchema = new Schema({
-    className: { type: String, default: 'GYM-E-DIARY-TRIAL' },
+    className: { type: String, unique: true },
     classDetail: { type: String, default: null },
-    classFrom: { type: Date },
-    classTo: { type: Date },
+    classFrom: { type: String },
+    classTo: { type: String },
     durationIn: { type: String, required: true },
     classDuration: { type: Number, default: null },
     classPrice: { type: Number, default: 0 },
-    isMon: { type: Boolean, default: true },
-    isTue: { type: Boolean, default: true },
-    isWed: { type: Boolean, default: true },
-    isThu: { type: Boolean, default: true },
-    isFri: { type: Boolean, default: true },
-    isSat: { type: Boolean, default: true },
+    isMon: { type: Boolean, default: false },
+    isTue: { type: Boolean, default: false },
+    isWed: { type: Boolean, default: false },
+    isThu: { type: Boolean, default: false },
+    isFri: { type: Boolean, default: false },
+    isSat: { type: Boolean, default: false },
     isSun: { type: Boolean, default: false },
-
     classTakingBy: { type: Schema.Types.ObjectId, ref: 'Staff', required: true },
-
     status: { type: Number, default: 1 }
 });
 
-export default model('ClassInfo', classSchema);
+const ClassInfo = mongoose.model('ClassInfo', classSchema);
+module.exports = ClassInfo;

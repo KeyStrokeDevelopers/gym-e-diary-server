@@ -1,22 +1,18 @@
-import express from 'express'
+const express = require('express')
+const { getSubscriptionData, saveSubscriptionData, updateSubscriptionData, deleteSubscriptionData, getSubscriptionActiveData } = require('../controllers/subscription.controllers');
+const { checkAuth } = require('../auth');
 const router = express.Router()
 
 
-router.get('/', (req, res) => {
-    res.send('subscription get route')
-})
+router.get('/masterPack', checkAuth, getSubscriptionData)
 
-router.post('/', (req, res) => {
-    res.send('subscription post route')
-})
+router.get('/active', checkAuth, getSubscriptionActiveData)
 
-router.put('/:subscriptionId', (req, res) => {
-    res.send('subscription put route')
-})
+router.post('/', checkAuth, saveSubscriptionData)
 
-router.delete('/:subscriptionId', (req, res) => {
-    res.send('subscription delete route')
-})
+router.put('/:subscriptionId', checkAuth, updateSubscriptionData)
+
+router.delete('/:subscriptionId', checkAuth, deleteSubscriptionData)
 
 
 module.exports = router

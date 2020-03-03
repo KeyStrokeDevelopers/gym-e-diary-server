@@ -1,4 +1,4 @@
-import mongoose, { model } from 'mongoose'
+const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema;
 
@@ -9,4 +9,4 @@ const accessSchema = new Schema({
     status: { type: Number, default: 1 }
 });
 
-export default model('Access', accessSchema);
+module.exports = mongoose.model('Access', accessSchema);
