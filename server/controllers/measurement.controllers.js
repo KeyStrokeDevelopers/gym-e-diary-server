@@ -14,7 +14,7 @@ const saveMeasurementData = async (req, res) => {
         res.status(200).send(measurement_data)
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -25,7 +25,7 @@ const getMeasurementData = async (req, res) => {
         res.status(200).send(measurementData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -42,7 +42,7 @@ const updateMeasurementData = async (req, res) => {
         throw new Error('Measurement data is not updated')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -58,7 +58,7 @@ const deleteMeasurementData = async (req, res) => {
         throw new Error('Measurement data is not deleted')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

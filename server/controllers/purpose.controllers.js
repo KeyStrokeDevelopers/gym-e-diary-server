@@ -11,7 +11,7 @@ const savePurposeData = async (req, res) => {
         const Purpose = await switchConnection(req.user.newDbName, "Purpose");
         const purposeData = dataFilter(req.body, PURPOSE_FIELD);
 
-        const isExist = await Purpose.findOne({ purposeName: purposeData.purposeName });
+        const isExist = await Purpose.findOne({ $and: [{ purposeName: purposeData.purposeName }, { status: 1 }] });
         if (isExist) {
             throw new Error('Purpose record is already exist');
         }
@@ -19,7 +19,7 @@ const savePurposeData = async (req, res) => {
         res.status(200).send(savedData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -31,7 +31,7 @@ const getPurposeData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -47,7 +47,7 @@ const updatePurposeData = async (req, res) => {
         throw new Error('Purpose data is not updated')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -63,7 +63,7 @@ const deletePurposeData = async (req, res) => {
         throw new Error('Purpose data is not deleted')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

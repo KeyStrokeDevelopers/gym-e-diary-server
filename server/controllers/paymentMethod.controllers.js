@@ -18,7 +18,7 @@ const savePaymentMethodData = async (req, res) => {
         res.status(200).send(payment_method);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -29,7 +29,7 @@ const getPaymentMethodData = async (req, res) => {
         res.status(200).send(paymentMethodData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -46,7 +46,7 @@ const updatePaymentMethodData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -62,7 +62,7 @@ const deletePaymentMethodData = async (req, res) => {
         throw new Error('PaymentMethod data is not deleted')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

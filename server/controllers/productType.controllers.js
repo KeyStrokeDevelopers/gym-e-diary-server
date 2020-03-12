@@ -18,7 +18,7 @@ const saveProductTypeData = async (req, res) => {
         res.status(200).send(savedData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -29,7 +29,7 @@ const getProductTypeData = async (req, res) => {
         res.status(200).send(productTypeData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -45,7 +45,7 @@ const updateProductTypeData = async (req, res) => {
         throw new Error('ProductType data is not updated')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -61,7 +61,7 @@ const deleteProductTypeData = async (req, res) => {
         throw new Error('ProductType data is not deleted')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
