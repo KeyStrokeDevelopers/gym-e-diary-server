@@ -9,7 +9,7 @@ const switchConnection = require('../databaseConnection/switchDb')
 const saveExpenseIncomeData = async (req, res) => {
     try {
         const expenseIncomeInfo = dataFilter(req.body, EXPENSE_INCOME_FIELD);
-        const ExpenseIncome = await switchConnection(newDb, "ExpenseIncome");
+        const ExpenseIncome = await switchConnection(req.user.newDbName, "ExpenseIncome");
         await ExpenseIncome.create(expenseIncomeInfo);
         res.status(200).send({ message: 'Record save successfully' })
     } catch (err) {
