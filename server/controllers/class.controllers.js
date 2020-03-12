@@ -19,7 +19,7 @@ const saveClassData = async (req, res) => {
         res.status(200).send(class_data)
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -30,7 +30,7 @@ const getClassData = async (req, res) => {
         res.status(200).send(classData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -47,7 +47,7 @@ const updateClassData = async (req, res) => {
         throw new Error('Class data is not updated');
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -64,7 +64,7 @@ const deleteClassData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

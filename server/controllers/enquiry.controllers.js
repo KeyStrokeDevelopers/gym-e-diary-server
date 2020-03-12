@@ -15,7 +15,7 @@ const saveEnquiryData = async (req, res) => {
         res.status(200).send(enquiryData)
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -26,7 +26,7 @@ const getEnquiryData = async (req, res) => {
         res.status(200).send(EnquiryData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -43,7 +43,7 @@ const updateEnquiryData = async (req, res) => {
         throw new Error('Enquiry data is not updated');
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -60,7 +60,7 @@ const deleteEnquiryData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

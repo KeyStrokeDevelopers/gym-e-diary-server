@@ -7,13 +7,9 @@ const switchConnection = require('../databaseConnection/switchDb')
  * @param {*} res 
  */
 const saveProductTypeData = async (req, res) => {
-    console.log('req.body in save product type =----', req.body)
     try {
         const ProductType = await switchConnection(req.user.newDbName, "ProductType");
         const productTypeData = dataFilter(req.body, PRODUCT_TYPE_FIELD);
-
-        console.log('product type data------', productTypeData)
-
         const isExist = await ProductType.findOne({ productType: productTypeData.productType });
         if (isExist) {
             throw new Error('ProductType record is already exist');
@@ -31,7 +27,6 @@ const getProductTypeData = async (req, res) => {
         const ProductType = await switchConnection(req.user.newDbName, "ProductType");
         const productTypeData = await ProductType.find();
         res.status(200).send(productTypeData);
-
     } catch (err) {
         console.log('error--', err)
         res.status(400).send(err)

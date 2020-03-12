@@ -11,7 +11,6 @@ const saveClassSubscriptionData = async (req, res) => {
         const Transaction = await switchConnection(req.user.newDbName, "Transaction");
         const ClassSubscription = await switchConnection(req.user.newDbName, "ClassSubscription");
         const classSubscriptionData = dataFilter(req.body, CLASS_SUBSCRIPTION_FIELD);
-        console.log('classSubscriptionData', classSubscriptionData);
         const ClassInfo = await switchConnection(req.user.newDbName, "ClassInfo");
         const classInfoData = await ClassInfo.findOne({ _id: classSubscriptionData.classInfo });
         let classRenewalDate;
@@ -34,7 +33,6 @@ const saveClassSubscriptionData = async (req, res) => {
         transactionData.paymentMode = 'Service';
         transactionData.transactionType = 'Member';
         await Transaction.create(transactionData);
-
         /**
         * Credit entry in transaction collection
         */
@@ -52,7 +50,7 @@ const saveClassSubscriptionData = async (req, res) => {
         res.status(200).send(savedData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -63,7 +61,7 @@ const getClassSubscriptionDataByMemberId = async (req, res) => {
         res.status(200).send(classSubscriptionData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -79,7 +77,7 @@ const updateClassSubscriptionData = async (req, res) => {
         throw new Error('ClassSubscription data is not updated')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -95,7 +93,7 @@ const deleteClassSubscriptionData = async (req, res) => {
         throw new Error('ClassSubscription data is not deleted')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

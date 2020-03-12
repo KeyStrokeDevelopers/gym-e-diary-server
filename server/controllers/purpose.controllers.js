@@ -36,7 +36,6 @@ const getPurposeData = async (req, res) => {
 }
 
 const updatePurposeData = async (req, res) => {
-    console.log('req.body--------', req.body)
     try {
         const Purpose = await switchConnection(req.user.newDbName, "Purpose");
         const isUpdated = await Purpose.update({ _id: req.body._id }, { $set: req.body })

@@ -10,7 +10,6 @@ const saveWorkoutNutritionData = async (req, res) => {
     try {
         const WorkoutNutrition = await switchConnection(req.user.newDbName, "WorkoutNutrition");
         const workoutNutritionData = dataFilter(req.body, PURPOSE_FIELD);
-
         const isExist = await WorkoutNutrition.findOne({ purposeName: workoutNutritionData.purposeName });
         if (isExist) {
             throw new Error('WorkoutNutrition record is already exist');
@@ -19,7 +18,7 @@ const saveWorkoutNutritionData = async (req, res) => {
         res.status(200).send(savedData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -31,7 +30,7 @@ const getWorkoutNutritionData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -47,7 +46,7 @@ const updateWorkoutNutritionData = async (req, res) => {
         throw new Error('WorkoutNutrition data is not updated')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -63,7 +62,7 @@ const deleteWorkoutNutritionData = async (req, res) => {
         throw new Error('WorkoutNutrition data is not deleted')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

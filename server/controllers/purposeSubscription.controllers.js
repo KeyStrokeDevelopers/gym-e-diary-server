@@ -15,7 +15,7 @@ const savePurposeSubscriptionData = async (req, res) => {
         res.status(200).send(purpose_subscription_data)
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -26,7 +26,7 @@ const getPurposeSubscriptionData = async (req, res) => {
         res.status(200).send(purposeSubscriptionData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -44,7 +44,7 @@ const updatePurposeSubscriptionData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -61,7 +61,7 @@ const deletePurposeSubscriptionData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

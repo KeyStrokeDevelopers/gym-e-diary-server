@@ -26,7 +26,7 @@ const getToken = async (req, res) => {
         res.status(200).send({ token: token, staffData })
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 
 }
@@ -38,52 +38,51 @@ const getStaffData = async (req, res) => {
         res.status(200).send(staffData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
 const getLogedStaffData = async (req, res) => {
     try {
         const Staff = await switchConnection(req.user.newDbName, "Staff");
+        const GymInfo = await switchConnection(req.user.newDbName, "GymInfo");
         const staffData = await Staff.findOne({ _id: req.user.loginId }).populate('accessLevel');
-        res.status(200).send(staffData);
+        const gymData = await GymInfo.findOne();
+        const data = { staffData, gymData }
+        res.status(200).send(data);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
 const saveStaffData = async (req, res) => {
-    console.log('req.body-----', req.body)
     try {
         const staffInfo = fileDataFilter(req.body, STAFF_INFO_FIELD);
         if (req.file && req.file.filename) {
             staffInfo.staffImage = req.file && req.file.filename;
         }
-        console.log('staff info in save staff data ----', staffInfo)
         const Staff = await switchConnection(req.user.newDbName, "Staff");
-        const isContact = await Staff.findOne(({ staffContact: staffInfo.staffContact }));
+        const isContact = await Staff.findOne({ $and: [{ staffContact: staffInfo.staffContact }, { status: 1 }] });
         if (isContact) {
             throw new Error('Staff contact number already registered');
         }
-        const isEmail = await Staff.findOne(({ staffEmail: staffInfo.staffEmail }));
+        const isEmail = await Staff.findOne({ $and: [{ staffEmail: staffInfo.staffEmail }, { status: 1 }] });
         if (isEmail) {
             throw new Error('Staff email already registered');
         }
-        const isStaffCode = await Staff.findOne(({ staffCode: staffInfo.staffCode }));
+        const isStaffCode = await Staff.findOne({ $and: [{ staffCode: staffInfo.staffCode }, { status: 1 }] });
         if (isStaffCode) {
             throw new Error('Staff code already registered');
         }
-
         const bcryptPassword = await bcrypt.hash(staffInfo.staffContact, BCRYPT_SALT_ROUNDS);
         staffInfo.staffPassword = bcryptPassword;
-
         await Staff.create(staffInfo);
         const staffData = await Staff.find().populate('accessLevel');
         res.status(200).send(staffData)
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -104,7 +103,7 @@ const updateStaffData = async (req, res) => {
         throw new Error('Staff data is not updated')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -121,7 +120,7 @@ const deleteStaffData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -142,10 +141,9 @@ const changePassword = async (req, res) => {
             return;
         }
         throw new Error('Staff password is not change');
-
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

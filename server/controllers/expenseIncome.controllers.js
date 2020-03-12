@@ -14,7 +14,7 @@ const saveExpenseIncomeData = async (req, res) => {
         res.status(200).send({ message: 'Record save successfully' })
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -25,7 +25,7 @@ const getExpenseIncomeData = async (req, res) => {
         res.status(200).send(expenseIncomeData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -42,7 +42,7 @@ const updateExpenseIncomeData = async (req, res) => {
         throw new Error('ExpenseIncome data is not updated');
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -59,7 +59,7 @@ const deleteExpenseIncomeData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

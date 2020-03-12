@@ -33,8 +33,6 @@ const getPaymentMethodData = async (req, res) => {
     }
 }
 
-
-
 const updatePaymentMethodData = async (req, res) => {
     try {
         const PaymentMethod = await switchConnection(req.user.newDbName, "PaymentMethod");
@@ -62,7 +60,6 @@ const deletePaymentMethodData = async (req, res) => {
             return;
         }
         throw new Error('PaymentMethod data is not deleted')
-
     } catch (err) {
         console.log('error--', err)
         res.status(400).send(err)

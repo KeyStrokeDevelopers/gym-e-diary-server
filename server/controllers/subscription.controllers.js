@@ -6,12 +6,13 @@ const switchConnection = require('../databaseConnection/switchDb')
  */
 const saveSubscriptionData = async (req, res) => {
     try {
-
         const Subscription = await switchConnection(req.user.newDbName, "MasterPackageSubscription");
-
+        const pendingSubscriptionData = Subscription.findOne({ status: 2 });
+        if (pendingSubscriptionData) {
+            throw new Error('Already one subscription is in pending stage')
+        }
         let renewaldate = new Date(req.body.activationDate);
         renewaldate.setDate(renewaldate.getDate() + req.body.package.packDuration);
-
         let subscriptionData = {};
         subscriptionData.packActivation = req.body.activationDate;
         subscriptionData.renewalDate = renewaldate;
@@ -25,7 +26,7 @@ const saveSubscriptionData = async (req, res) => {
         res.status(200).send({});
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -36,7 +37,7 @@ const getSubscriptionData = async (req, res) => {
         res.status(200).send(subscriptionData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -48,7 +49,7 @@ const getSubscriptionActiveData = async (req, res) => {
         res.status(200).send(subscriptionData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -65,7 +66,7 @@ const updateSubscriptionData = async (req, res) => {
         throw new Error('Subscription data is not updated');
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -79,10 +80,9 @@ const deleteSubscriptionData = async (req, res) => {
             return;
         }
         throw new Error('Subscription data is not deleted');
-
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

@@ -98,7 +98,7 @@ const saveAddMemberData = async (req, res) => {
         res.status(200).send(member_data);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -109,7 +109,7 @@ const getAddMemberData = async (req, res) => {
         res.status(200).send(addMemberData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -129,7 +129,7 @@ const updateAddMemberData = async (req, res) => {
         throw new Error('AddMember data is not updated');
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -146,7 +146,7 @@ const deleteAddMemberData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -157,7 +157,7 @@ const getOccupation = async (req, res) => {
         res.send(occupation);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -178,7 +178,7 @@ const updateWishes = async (req, res) => {
         throw new Error('AddMember data is not updated');
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

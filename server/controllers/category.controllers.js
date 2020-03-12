@@ -21,7 +21,7 @@ const saveCategoryData = async (req, res) => {
         res.status(200).send(category);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -32,7 +32,7 @@ const getCategoryData = async (req, res) => {
         res.status(200).send(categoryData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -49,7 +49,7 @@ const updateCategoryData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -66,7 +66,7 @@ const deleteCategoryData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

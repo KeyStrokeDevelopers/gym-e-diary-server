@@ -40,7 +40,6 @@ const updateMeasurementData = async (req, res) => {
             return;
         }
         throw new Error('Measurement data is not updated')
-
     } catch (err) {
         console.log('error--', err)
         res.status(400).send(err)
@@ -57,7 +56,6 @@ const deleteMeasurementData = async (req, res) => {
             return;
         }
         throw new Error('Measurement data is not deleted')
-
     } catch (err) {
         console.log('error--', err)
         res.status(400).send(err)

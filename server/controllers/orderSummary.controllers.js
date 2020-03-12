@@ -14,7 +14,7 @@ const saveOrderSummaryData = async (req, res) => {
         res.status(200).send(order_Summary_Data);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -25,7 +25,7 @@ const getOrderSummaryData = async (req, res) => {
         res.status(200).send(orderSummaryData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -41,7 +41,7 @@ const updateOrderSummaryData = async (req, res) => {
         throw new Error('OrderSummary data is not updated');
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -58,7 +58,7 @@ const deleteOrderSummaryData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

@@ -18,7 +18,7 @@ const savePackageData = async (req, res) => {
         res.status(200).send(package_data)
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -29,7 +29,7 @@ const getPackageData = async (req, res) => {
         res.status(200).send(packageData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -44,10 +44,9 @@ const updatePackageData = async (req, res) => {
             return;
         }
         throw new Error('Package data is not updated');
-
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -64,7 +63,7 @@ const deletePackageData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

@@ -45,7 +45,6 @@ passport.use(
         {
             usernameField: 'branchContact',
             passwordField: 'staffPassword',
-
             session: false
         },
         async (branchContact, staffPassword, done) => {

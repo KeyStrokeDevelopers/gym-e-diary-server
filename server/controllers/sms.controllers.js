@@ -8,6 +8,10 @@ const switchConnection = require('../databaseConnection/switchDb')
 const saveSmsData = async (req, res) => {
     try {
         const Sms = await switchConnection(req.user.newDbName, "SmsSubscription");
+        const pendingSmsSubscriptionData = Sms.findOne({ status: 2 });
+        if (pendingSmsSubscriptionData) {
+            throw new Error('Already one SMS subscription is in pending stage')
+        }
         let smsSubData = {};
         smsSubData.smsPackage = req.body.smsPack.smsPackName;
         smsSubData.smsPackPrice = req.body.smsPack.smsPackPrice;
@@ -18,7 +22,7 @@ const saveSmsData = async (req, res) => {
         res.status(200).send(Sms_info_data);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -29,7 +33,7 @@ const getActiveSmsData = async (req, res) => {
         res.status(200).send(Sms_info_data);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -40,7 +44,7 @@ const getSmsData = async (req, res) => {
         res.status(200).send(SmsData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -56,7 +60,7 @@ const updateSmsData = async (req, res) => {
         throw new Error('Sms data is not updated');
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -70,10 +74,9 @@ const deleteSmsData = async (req, res) => {
             return;
         }
         throw new Error('Sms data is not deleted');
-
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

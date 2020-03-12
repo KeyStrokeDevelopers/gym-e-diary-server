@@ -1,5 +1,5 @@
 const { dataFilter } = require('../constant/fieldFilter')
-const { EXPENSE_INCOME_FIELD } = require('../constant')
+const { EXPENSE_INCOME_FIELD, ACCOUNT_FIELD } = require('../constant')
 const switchConnection = require('../databaseConnection/switchDb')
 /**
  * 
@@ -22,11 +22,11 @@ const saveAccountData = async (req, res) => {
         transactionData.transactionType = 'Member';
         transactionData.transactionDate = accountData.date;
         transactionData.paymentModeDescription = accountData.paymentMethod;
-        await Transaction.create(transactionData);
-        res.status(200).send([{}]);
+        const account_data = await Transaction.create(transactionData);
+        res.status(200).send(account_data);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -40,7 +40,7 @@ const saveSalaryData = async (req, res) => {
         res.status(200).send(salaryReport);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -54,7 +54,7 @@ const getSalaryData = async (req, res) => {
         const salaryData = await Promise.all(ExpenseIncomeData);
         res.status(200).send(salaryData);
     } catch (err) {
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -66,7 +66,7 @@ const getAccountData = async (req, res) => {
         res.status(200).send(accountData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -82,7 +82,7 @@ const updateAccountData = async (req, res) => {
         throw new Error('Account data is not updated')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -98,7 +98,7 @@ const deleteAccountData = async (req, res) => {
         throw new Error('Account data is not deleted')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

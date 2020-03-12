@@ -44,7 +44,7 @@ const getPendingPaymentsData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -152,7 +152,6 @@ const getReports = async (req, res) => {
                 return { memberId: data.member._id, form: data.member.regNo, member: `${data.member.name} ${data.member.fTitle} ${data.member.favourOf}`, contect: contactValue, age: age, balance: totalDebit - totalCredit, bloodG: data.member.bloodGroup, fingercode: data.member.fingerCode, birthWish: data.member.birthWish, anniversaryWish: data.member.anniversaryWish, dob: data.member.dob, anniversary: data.member.anniversary, callDate: data.member.callDate, dnd: data.member.dnd };
             })
         } else if (reportType === 'Active' && subscriptionType === 'All') {
-            console.log('enter in else if active all------***-----')
             const classSubscriptionActiveData = await ClassSubscription.find({ $and: [{ renewalDate: { $gte: new Date() } }, { classActivation: { $lte: new Date() } }, { freeze: { $eq: 0 } }] }).populate('member');
             let classReportsData = classSubscriptionActiveData.map(async (data) => {
                 const memberTransactionData = await Transaction.find({ member: data.member._id });
@@ -589,7 +588,7 @@ const getReports = async (req, res) => {
         res.status(200).send(finalReport);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -629,7 +628,7 @@ const getExpiringMemberships = async (req, res) => {
         res.status(200).send(pending_payments);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -668,7 +667,7 @@ const getExpiredMembers = async (req, res) => {
         res.status(200).send(pending_payments);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -707,7 +706,7 @@ const getNonActiveMembers = async (req, res) => {
         res.status(200).send(pending_payments);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -747,7 +746,7 @@ const getClasses = async (req, res) => {
         res.status(200).send(pending_payments);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -788,7 +787,7 @@ const getRegistration = async (req, res) => {
         res.status(200).send(registrationReport);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -850,7 +849,7 @@ const getRenewal = async (req, res) => {
         res.status(200).send(renewalDataReport);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -864,7 +863,7 @@ const handleDnd = async (req, res) => {
         res.status(200).send(true);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -876,7 +875,7 @@ const handleCall = async (req, res) => {
         res.status(200).send(true);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

@@ -14,7 +14,7 @@ const saveInvoiceInData = async (req, res) => {
         res.status(200).send(invoice_Data);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -30,7 +30,7 @@ const getInvoiceInData = async (req, res) => {
         res.status(200).send(invoiceData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -46,7 +46,7 @@ const updateInvoiceInData = async (req, res) => {
         throw new Error('InvoiceIn data is not updated');
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -63,7 +63,7 @@ const deleteInvoiceInData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

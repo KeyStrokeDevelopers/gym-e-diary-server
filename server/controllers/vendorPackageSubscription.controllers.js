@@ -50,8 +50,8 @@ const saveVendorPackageSubscriptionData = async (req, res) => {
         }
         res.status(200).send(savedData);
     } catch (err) {
-        console.log('error--', err)
-        res.status(400).send(err)
+        console.log('error--', err.message)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -60,10 +60,9 @@ const getVendorPackageSubscriptionData = async (req, res) => {
         const VendorPackageSubscription = await switchConnection(req.user.newDbName, "VendorPackageSubscription");
         const vendorPackageData = await VendorPackageSubscription.find();
         res.status(200).send(vendorPackageData);
-
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -75,7 +74,7 @@ const getVendorPackageSubscriptionDataByMemberId = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -91,7 +90,7 @@ const updateVendorPackageSubscriptionData = async (req, res) => {
         throw new Error('VendorPackageSubscription data is not updated')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -107,7 +106,7 @@ const deleteVendorPackageSubscriptionData = async (req, res) => {
         throw new Error('VendorPackageSubscription data is not deleted')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

@@ -111,10 +111,9 @@ const saveSaleData = async (req, res) => {
             await InvoiceIn.create(invoiceData);
         }
         res.status(200).send(accountInfoData);
-
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -162,7 +161,7 @@ const getSaleData = async (req, res) => {
         res.status(200).send(finalSaleData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -180,7 +179,7 @@ const updateSaleData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -197,7 +196,7 @@ const deleteInvoiceData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -219,10 +218,9 @@ const cancelSaleData = async (req, res) => {
             return;
         }
         throw new Error('Invoice data is not deleted');
-
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -272,7 +270,7 @@ const getCancelSaleData = async (req, res) => {
         res.status(200).send(finalSaleData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

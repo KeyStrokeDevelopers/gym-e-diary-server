@@ -15,7 +15,7 @@ const saveBrandUnitData = async (req, res) => {
         res.status(200).send(savedData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -27,7 +27,7 @@ const getBrandUnitData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -43,7 +43,7 @@ const updateBrandUnitData = async (req, res) => {
         throw new Error('BrandUnit data is not updated')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -59,7 +59,7 @@ const deleteBrandUnitData = async (req, res) => {
         throw new Error('BrandUnit data is not deleted')
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

@@ -70,7 +70,7 @@ const savePurchaseData = async (req, res) => {
         res.status(200).send(accountInfoData)
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -125,7 +125,7 @@ const getPurchaseData = async (req, res) => {
         res.status(200).send(finalPurchaseData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -143,7 +143,7 @@ const updatePurchaseData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -161,7 +161,7 @@ const deleteInvoiceData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

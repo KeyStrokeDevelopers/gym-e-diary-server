@@ -6,7 +6,7 @@ const getAccessData = async (req, res) => {
         res.status(200).send(accessData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -17,7 +17,7 @@ const saveAccessData = async (req, res) => {
         res.status(200).send(accessData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

@@ -12,7 +12,6 @@ const saveProductData = async (req, res) => {
         const productData = dataFilter(req.body, PRODUCT_FIELD);
         const savedData = await Product.create(productData);
         const product_data = await Product.find({ status: 1 }).populate('brand').populate('product').populate('measuringUnit');
-        console.log('product data in save product data ------', product_data)
         res.status(200).send(product_data);
     } catch (err) {
         console.log('error--', err)

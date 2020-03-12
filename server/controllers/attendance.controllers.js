@@ -29,7 +29,7 @@ const saveAttendanceData = async (req, res) => {
         res.status(200).send(attendance_data);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -54,7 +54,7 @@ const getAttendanceData = async (req, res) => {
         })
         res.status(200).send(attendance_data);
     } catch (err) {
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -70,7 +70,7 @@ const updateAttendanceData = async (req, res) => {
         throw new Error('Attendance data is not updated');
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -87,7 +87,7 @@ const deleteAttendanceData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

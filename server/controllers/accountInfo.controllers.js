@@ -14,7 +14,7 @@ const saveAccountInfoData = async (req, res) => {
         res.status(200).send(account_info_data);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -25,7 +25,7 @@ const getAccountInfoData = async (req, res) => {
         res.status(200).send(accountData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -41,7 +41,7 @@ const updateAccountInfoData = async (req, res) => {
         throw new Error('AccountInfo data is not updated');
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -58,7 +58,7 @@ const deleteAccountInfoData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

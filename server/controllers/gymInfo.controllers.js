@@ -16,7 +16,7 @@ const saveGymInfo = async (req, res) => {
         res.status(200).send({ message: ' Need to be done gym info save controllers' })
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -31,7 +31,7 @@ const getGymInfoData = async (req, res) => {
         res.status(200).send(gym_info_data);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -68,7 +68,7 @@ const updateGymInfo = async (req, res) => {
         //throw new Error('GymInfo data is not updated');
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

@@ -15,7 +15,7 @@ const saveMediaData = async (req, res) => {
         res.status(200).send(media_data);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -26,7 +26,7 @@ const getMediaData = async (req, res) => {
         res.status(200).send(mediaData);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -42,7 +42,7 @@ const updateMediaData = async (req, res) => {
         throw new Error('Media data is not updated');
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -59,7 +59,7 @@ const deleteMediaData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

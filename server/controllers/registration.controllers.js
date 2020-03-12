@@ -11,7 +11,6 @@ const switchConnection = require('../databaseConnection/switchDb')
  */
 
 const saveRegistrationData = async (req, res) => {
-    console.log('req.body in save regi-----', req.body)
     try {
         /**
          * Filter field 
@@ -54,8 +53,7 @@ const saveRegistrationData = async (req, res) => {
         const isExist = await MasterInfo.findOne(({ branchContact: gymInfo.branchContact }));
 
         if (isExist) {
-            res.status(401).send({ error: 'GYM contact number already registered' })
-            return
+            throw new Error('GYM contact number already registered')
         }
         await MasterInfo.create(masterInfo);
 
@@ -84,7 +82,7 @@ const saveRegistrationData = async (req, res) => {
         res.status(200).send({ message: 'Record save successfully' })
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 

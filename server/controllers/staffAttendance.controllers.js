@@ -9,20 +9,18 @@ const switchConnection = require('../databaseConnection/switchDb')
 const saveStaffAttendanceData = async (req, res) => {
     try {
         let attendanceData = dataFilter(req.body, STAFF_ATTENDANCE_FIELD);
-
         let attendance_data;
         const StaffAttendance = await switchConnection(req.user.newDbName, "StaffAttendance");
         const isStaffAttendanceMark = await StaffAttendance.findOne({ $and: [{ staff: req.body.staff }, { date: req.body.date }] });
-
         if (isStaffAttendanceMark) {
             attendance_data = await StaffAttendance.updateOne({ _id: isStaffAttendanceMark._id }, { $set: attendanceData });
         } else {
             attendance_data = await StaffAttendance.create(attendanceData);
         }
-        res.status(200).send(attendance_data);
+        res.status(200).send([]);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -44,7 +42,7 @@ const getStaffAttendanceData = async (req, res) => {
         const staff_data = await Promise.all(staffAttendanceData)
         res.status(200).send(staff_data);
     } catch (err) {
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -66,7 +64,7 @@ const fetchStaffAttendanceData = async (req, res) => {
         const staff_data = await Promise.all(staffAttendanceData);
         res.status(200).send(staff_data);
     } catch (err) {
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -83,13 +81,15 @@ const updateStaffAttendanceData = async (req, res) => {
         const staffData = await Staff.find().populate('accessLevel');
         const staffAttendanceData = staffData.map(async (item) => {
             const staff_attendance = await StaffAttendance.findOne({ $and: [{ staff: item._id }, { date: req.body.date }] });
-            return { staffId: item._id, staffName: item.staffName, attendance: staff_attendance.attendance, date: req.body.date, staffAddress: item.staffAddress, staffContact: item.staffContact, staffEmail: item.staffEmail, staffCode: item.staffCode, staffAccessLevel: item.accessLevel['accessLevel'] }
+
+            console.log('staff_attendance', staff_attendance)
+            return { staffId: item._id, staffName: item.staffName, attendance: staff_attendance && staff_attendance.attendance, date: req.body.date, staffAddress: item.staffAddress, staffContact: item.staffContact, staffEmail: item.staffEmail, staffCode: item.staffCode, staffAccessLevel: item.accessLevel['accessLevel'] }
         })
         const staff_data = await Promise.all(staffAttendanceData)
         res.status(200).send(staff_data);
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -106,7 +106,7 @@ const deleteStaffAttendanceData = async (req, res) => {
 
     } catch (err) {
         console.log('error--', err)
-        res.status(400).send(err)
+        res.status(400).json({ message: err.message })
     }
 }
 
