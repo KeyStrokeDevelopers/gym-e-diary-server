@@ -31,7 +31,8 @@ const sale = require('./sale.route')
 const sms = require('./sms.route')
 const subscription = require('./subscription.route')
 const staffAttendance = require('./staffAttendance.route')
-
+const sendMail = require('./sendMail.route')
+const sendSms = require('./sendSms.route')
 
 const router = express.Router()
 
@@ -68,6 +69,8 @@ router.use('/staffAttendance', staffAttendance)
 router.use('/sale', sale)
 router.use('/sms', sms)
 router.use('/subscription', subscription)
+router.use('/sendEmail', sendMail)
+router.use('/sendSms', sendSms)
 router.use('/resetPassword', (req, res) => {
     res.status(200).send({ message: 'New password is send to your registered mobile number' })
 })
