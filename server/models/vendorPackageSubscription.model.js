@@ -14,6 +14,8 @@ const subscriptionSchema = new Schema({
     purchaseDate: { type: Date, default: moment(new Date()).format('YYYY-MM-DD') },
     gstValue: { type: Number },
     freeze: { type: Number, default: 0 },
+    freezeDate: Date,
+    deFreezeDate: Date,
     status: { type: Number, default: 1 }
 
 });

@@ -29,6 +29,28 @@ const getAccountInfoData = async (req, res) => {
     }
 }
 
+const getCustomerInfoData = async (req, res) => {
+    try {
+        const AccountInfo = await switchConnection(req.user.newDbName, "AccountInfo");
+        const customerData = await AccountInfo.find({ accountType: 'Customer' });
+        res.status(200).send(customerData);
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).json({ message: err.message })
+    }
+}
+
+const getVendorInfoData = async (req, res) => {
+    try {
+        const AccountInfo = await switchConnection(req.user.newDbName, "AccountInfo");
+        const vendorData = await AccountInfo.find({ accountType: 'VENDOR' });
+        res.status(200).send(vendorData);
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).json({ message: err.message })
+    }
+}
+
 const updateAccountInfoData = async (req, res) => {
     try {
         const AccountInfo = await switchConnection(req.user.newDbName, "AccountInfo");
@@ -66,5 +88,7 @@ module.exports = {
     saveAccountInfoData,
     getAccountInfoData,
     updateAccountInfoData,
-    deleteAccountInfoData
+    deleteAccountInfoData,
+    getCustomerInfoData,
+    getVendorInfoData
 };

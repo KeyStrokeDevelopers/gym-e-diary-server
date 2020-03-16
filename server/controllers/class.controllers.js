@@ -68,9 +68,27 @@ const deleteClassData = async (req, res) => {
     }
 }
 
+const activeClassData = async (req, res) => {
+    try {
+        const ClassInfo = await switchConnection(req.user.newDbName, "ClassInfo");
+        const isActive = await ClassInfo.update({ _id: req.params.classId }, { $set: { status: 1 } })
+        if (isActive) {
+            let updatedClassData = await ClassInfo.find();
+            res.send(updatedClassData);
+            return;
+        }
+        throw new Error('Class data is not activated');
+
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).json({ message: err.message })
+    }
+}
+
 module.exports = {
     saveClassData,
     getClassData,
     updateClassData,
-    deleteClassData
+    deleteClassData,
+    activeClassData
 };

@@ -66,9 +66,26 @@ const deletePaymentMethodData = async (req, res) => {
     }
 }
 
+const activePaymentMethodData = async (req, res) => {
+    try {
+        const PaymentMethod = await switchConnection(req.user.newDbName, "PaymentMethod");
+        const isActive = await PaymentMethod.update({ _id: req.params.payMethodId }, { $set: { status: 1 } })
+        if (isActive) {
+            let updatedPaymentMethodData = await PaymentMethod.find();
+            res.send(updatedPaymentMethodData);
+            return;
+        }
+        throw new Error('PaymentMethod data is not active')
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).json({ message: err.message })
+    }
+}
+
 module.exports = {
     savePaymentMethodData,
     getPaymentMethodData,
     updatePaymentMethodData,
-    deletePaymentMethodData
+    deletePaymentMethodData,
+    activePaymentMethodData
 };

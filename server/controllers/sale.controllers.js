@@ -7,7 +7,6 @@ const switchConnection = require('../databaseConnection/switchDb')
  * @param {*} res 
  */
 const saveSaleData = async (req, res) => {
-    console.log('req.body -------', req.body.billInfo.paidAmount)
     try {
         // Add data in account info collection
         const Transaction = await switchConnection(req.user.newDbName, "Transaction");
@@ -18,7 +17,7 @@ const saveSaleData = async (req, res) => {
         let accountInfoData = req.body.customerInfo;
         accountInfoData.accountType = 'Customer';
 
-        let isAlreadyInserted = await AccountInfo.findOne({ $and: [{ contact: accountInfoData.contact }, { email: accountInfoData.email }, { accountType: 'Customer' }] });
+        let isAlreadyInserted = await AccountInfo.findOne({ $and: [{ $or: [{ contact: accountInfoData.contact }, { email: accountInfoData.email }] }, { accountType: 'Customer' }] });
 
         let account_info_data;
         if (isAlreadyInserted) {

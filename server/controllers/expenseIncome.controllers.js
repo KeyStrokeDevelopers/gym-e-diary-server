@@ -11,7 +11,8 @@ const saveExpenseIncomeData = async (req, res) => {
         const expenseIncomeInfo = dataFilter(req.body, EXPENSE_INCOME_FIELD);
         const ExpenseIncome = await switchConnection(req.user.newDbName, "ExpenseIncome");
         await ExpenseIncome.create(expenseIncomeInfo);
-        res.status(200).send({ message: 'Record save successfully' })
+        const expenseIncomeData = await ExpenseIncome.find().populate('catName').populate('paymentMethod');
+        res.status(200).send(expenseIncomeData)
     } catch (err) {
         console.log('error--', err)
         res.status(400).json({ message: err.message })

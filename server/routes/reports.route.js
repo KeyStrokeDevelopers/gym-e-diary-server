@@ -1,5 +1,5 @@
 const express = require('express')
-const { getPendingPaymentsData, getReports, getExpiringMemberships, getExpiredMembers, getNonActiveMembers, getClasses, getRegistration, getRenewal, handleDnd, handleCall } = require('../controllers/reports.controllers')
+const { getPendingPaymentsData, getReports, getExpiringMemberships, getExpiredMembers, getNonActiveMembers, getClasses, getRegistration, getRenewal, handleDnd, handleCall, getCurrentStock } = require('../controllers/reports.controllers')
 const { checkAuth } = require('../auth')
 
 const router = express.Router()
@@ -18,10 +18,13 @@ router.get('/classes', checkAuth, getClasses);
 
 router.post('/registration', checkAuth, getRegistration);
 
+router.post('/currentStock', checkAuth, getCurrentStock);
+
 router.post('/renewal', checkAuth, getRenewal);
 
 router.get('/dnd/:memberId', checkAuth, handleDnd)
 
 router.get('/call/:memberId', checkAuth, handleCall)
+
 
 module.exports = router

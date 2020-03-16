@@ -1,10 +1,12 @@
 const express = require('express')
-const { savePurposeData, getPurposeData, updatePurposeData, deletePurposeData } = require('../controllers/purpose.controllers')
+const { savePurposeData, getPurposeData, updatePurposeData, deletePurposeData, activePurposeData } = require('../controllers/purpose.controllers')
 const { checkAuth } = require('../auth')
 
 const router = express.Router()
 
 router.get('/', checkAuth, getPurposeData);
+
+router.get('/active/:purposeId', checkAuth, activePurposeData);
 
 router.post('/', checkAuth, savePurposeData)
 

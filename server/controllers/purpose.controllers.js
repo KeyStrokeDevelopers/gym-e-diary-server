@@ -67,9 +67,26 @@ const deletePurposeData = async (req, res) => {
     }
 }
 
+const activePurposeData = async (req, res) => {
+    try {
+        const Purpose = await switchConnection(req.user.newDbName, "Purpose");
+        const isActivated = await Purpose.update({ _id: req.params.purposeId }, { $set: { status: 1 } })
+        if (isActivated) {
+            let updatedPurposeData = await Purpose.find();
+            res.send(updatedPurposeData);
+            return;
+        }
+        throw new Error('Purpose data is not activated')
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).json({ message: err.message })
+    }
+}
+
 module.exports = {
     savePurposeData,
     getPurposeData,
     updatePurposeData,
-    deletePurposeData
+    deletePurposeData,
+    activePurposeData
 };

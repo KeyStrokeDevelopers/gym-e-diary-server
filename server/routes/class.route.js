@@ -1,10 +1,12 @@
 const express = require('express')
-const { saveClassData, getClassData, updateClassData, deleteClassData } = require('../controllers/class.controllers')
+const { saveClassData, getClassData, updateClassData, deleteClassData, activeClassData } = require('../controllers/class.controllers')
 const { checkAuth } = require('../auth')
 
 const router = express.Router()
 
 router.get('/', checkAuth, getClassData)
+
+router.get('/active/:classId', checkAuth, activeClassData)
 
 router.post('/', checkAuth, saveClassData)
 

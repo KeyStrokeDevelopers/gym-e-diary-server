@@ -1,6 +1,7 @@
 const { dataFilter } = require('../constant/fieldFilter')
 const { VENDOR_PACKAGE_SUBSCRIPTION_FIELD } = require('../constant')
 const switchConnection = require('../databaseConnection/switchDb')
+const moment = require('moment');
 /**
  * 
  * @param {*} req 
@@ -51,6 +52,30 @@ const saveVendorPackageSubscriptionData = async (req, res) => {
         res.status(200).send(savedData);
     } catch (err) {
         console.log('error--', err.message)
+        res.status(400).json({ message: err.message })
+    }
+}
+
+const saveVendorPackageFreezeData = async (req, res) => {
+    try {
+        const VendorPackageSubscription = await switchConnection(req.user.newDbName, "VendorPackageSubscription");
+        if (req.body.freeze) {
+            await VendorPackageSubscription.update({ _id: req.body.packageId }, { $set: { freeze: req.body.freeze, freezeDate: req.body.freezeDate } })
+            const vendorPackageData = await VendorPackageSubscription.find({ _id: req.body.packageId }).populate('packageInfo');
+            res.status(200).send(vendorPackageData);
+            return null;
+        } else {
+            const packageData = await VendorPackageSubscription.findOne({ _id: req.body.packageId });
+            const pendingDay = Math.round(Math.abs((new Date(packageData.renewalDate) - new Date(packageData.freezeDate)) / 86400000));
+            const date = new Date(req.body.deFreezeDate);
+            const renewalDate = moment(new Date(date.setDate(date.getDate() + pendingDay))).format('YYYY-MM-DD');
+            await VendorPackageSubscription.update({ _id: req.body.packageId }, { $set: { freeze: req.body.freeze, deFreezeDate: req.body.deFreezeDate, packActivation: req.body.deFreezeDate, renewalDate } })
+            const vendorPackageData = await VendorPackageSubscription.find({ _id: req.body.packageId }).populate('packageInfo');
+            res.status(200).send(vendorPackageData);
+            return null;
+        }
+    } catch (err) {
+        console.log('error--', err)
         res.status(400).json({ message: err.message })
     }
 }
@@ -115,5 +140,6 @@ module.exports = {
     getVendorPackageSubscriptionData,
     getVendorPackageSubscriptionDataByMemberId,
     updateVendorPackageSubscriptionData,
-    deleteVendorPackageSubscriptionData
+    deleteVendorPackageSubscriptionData,
+    saveVendorPackageFreezeData
 };

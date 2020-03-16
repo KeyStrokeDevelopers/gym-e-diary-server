@@ -46,7 +46,7 @@ const arrayDataFilter = (data, field) => {
 const fileDataFilter = (data, field) => {
     let filterData = {};
     field.map((key) => {
-        if (data[key]) {
+        if (data[key] || key === 'regFee' || key === 'autoBirth' || key === 'autoAnniv' || key === 'autoExpiring' || key === 'autoExpired' || key === 'isStaffAttendance' || key === 'isMemberAttendance' || key === 'printLogo') {
             if (key === 'accessLevel') {
                 if (ObjectId.isValid(data[key])) {
                     filterData[key] = data[key];

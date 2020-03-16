@@ -796,6 +796,37 @@ const getRegistration = async (req, res) => {
  * 
  * @param {*} req 
  * @param {*} res
+ * Get All New Registered Report 
+ */
+const getCurrentStock = async (req, res) => {
+    try {
+        const Product = await switchConnection(req.user.newDbName, "Product");
+        let ProductData;
+        if (req.body.productType === 'All' && req.body.brand === 'All') {
+            ProductData = await Product.find({ status: 1 }).populate('brand').populate('product');
+        } else if (!(req.body.productType === 'All') && !(req.body.brand === 'All')) {
+            ProductData = await Product.find({ $and: [{ status: 1 }, { brand: req.body.brand }, { product: req.body.productType }] }).populate('brand').populate('product');
+        } else if (req.body.productType === 'All') {
+            ProductData = await Product.find({ $and: [{ status: 1 }, { brand: req.body.brand }] }).populate('brand').populate('product');
+        } else {
+            ProductData = await Product.find({ $and: [{ status: 1 }, { product: req.body.productType }] }).populate('brand').populate('product');
+        }
+        const ProductFilterData = ProductData.filter((item) => item.brand.entryType === 'Brand');
+        const reports = ProductFilterData.map((item) => {
+            return { productType: item.product.productType, brand: item.brand.value, productName: item.model, ProductCode: item.product.hsnCode, costPrice: item.costPrice, currentStock: item.quantity, minimumQty: item.minimumQty, stockValue: item.minimumQty - item.quantity > 0 && item.minimumQty - item.quantity }
+        })
+        res.status(200).send(reports);
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).json({ message: err.message })
+    }
+}
+
+
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res
  * Get All Renewed Membership Report 
  */
 const getRenewal = async (req, res) => {
@@ -887,6 +918,7 @@ module.exports = {
     getNonActiveMembers,
     getClasses,
     getRegistration,
+    getCurrentStock,
     getRenewal,
     handleDnd,
     handleCall

@@ -70,9 +70,27 @@ const deleteCategoryData = async (req, res) => {
     }
 }
 
+const activeCategoryData = async (req, res) => {
+    try {
+        const Category = await switchConnection(req.user.newDbName, "Category");
+        const isActivated = await Category.update({ _id: req.params.categoryId }, { $set: { status: 1 } })
+        if (isActivated) {
+            let updatedCategoryData = await Category.find();
+            res.send(updatedCategoryData);
+            return;
+        }
+        throw new Error('Category data is not activated');
+
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).json({ message: err.message })
+    }
+}
+
 module.exports = {
     saveCategoryData,
     getCategoryData,
     updateCategoryData,
-    deleteCategoryData
+    deleteCategoryData,
+    activeCategoryData
 };

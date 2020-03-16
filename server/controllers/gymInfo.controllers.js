@@ -36,6 +36,7 @@ const getGymInfoData = async (req, res) => {
 }
 
 const updateGymInfo = async (req, res) => {
+    console.log('req.body in gym info -----', req.body)
     try {
         const GymInfo = await switchConnection(req.user.newDbName, "GymInfo");
         const updateGymInfoData = fileDataFilter(req.body, GYM_INFO_FIELD);
@@ -45,7 +46,7 @@ const updateGymInfo = async (req, res) => {
         const Counter = await switchConnection(req.user.newDbName, "Counter");
         const counterData = await Counter.find();
         if (req.body.preFix && counterData.length >= 1) {
-            await counterData.updateOne({ _id: counterData[0]._id }, { $set: { preFix: req.body.preFix } });
+            await Counter.updateOne({ _id: counterData[0]._id }, { $set: { preFix: req.body.preFix } });
         }
         if (counterData.length < 1) {
             if (req.body.seriesStartFrom) {
@@ -57,15 +58,13 @@ const updateGymInfo = async (req, res) => {
                 await Counter.create(counter_data);
             }
         }
-        const isUpdated = await GymInfo.update({ _id: req.body._id }, { $set: updateGymInfoData })
+        const isUpdated = await GymInfo.updateOne({ $set: updateGymInfoData })
         if (isUpdated) {
             let updatedGymInfoData = await GymInfo.find();
             res.send(updatedGymInfoData);
             return;
         }
-        res.status(200).send([{}]);
-        return
-        //throw new Error('GymInfo data is not updated');
+        throw new Error('GymInfo data is not updated');
     } catch (err) {
         console.log('error--', err)
         res.status(400).json({ message: err.message })

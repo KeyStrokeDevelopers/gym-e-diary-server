@@ -67,9 +67,27 @@ const deletePackageData = async (req, res) => {
     }
 }
 
+const activePackageData = async (req, res) => {
+    try {
+        const VendorPackage = await switchConnection(req.user.newDbName, "VendorPackage");
+        const isActive = await VendorPackage.update({ _id: req.params.packId }, { $set: { status: 1 } })
+        if (isActive) {
+            let updatedPackageData = await VendorPackage.find();
+            res.send(updatedPackageData);
+            return;
+        }
+        throw new Error('Package data is not active');
+
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).json({ message: err.message })
+    }
+}
+
 module.exports = {
     savePackageData,
     getPackageData,
     updatePackageData,
-    deletePackageData
+    deletePackageData,
+    activePackageData
 };
