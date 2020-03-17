@@ -36,7 +36,6 @@ const getGymInfoData = async (req, res) => {
 }
 
 const updateGymInfo = async (req, res) => {
-    console.log('req.body in gym info -----', req.body)
     try {
         const GymInfo = await switchConnection(req.user.newDbName, "GymInfo");
         const updateGymInfoData = fileDataFilter(req.body, GYM_INFO_FIELD);
@@ -60,8 +59,8 @@ const updateGymInfo = async (req, res) => {
         }
         const isUpdated = await GymInfo.updateOne({ $set: updateGymInfoData })
         if (isUpdated) {
-            let updatedGymInfoData = await GymInfo.find();
-            res.send(updatedGymInfoData);
+            let updatedGymInfoData = await GymInfo.findOne();
+            res.status(200).send(updatedGymInfoData);
             return;
         }
         throw new Error('GymInfo data is not updated');
