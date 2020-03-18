@@ -22,7 +22,7 @@ const saveProductData = async (req, res) => {
 const getProductData = async (req, res) => {
     try {
         const Product = await switchConnection(req.user.newDbName, "Product");
-        const productData = await Product.find({ status: 1 }).populate('brand').populate('product').populate('measuringUnit');
+        const productData = await Product.find().populate('brand').populate('product').populate('measuringUnit');
         res.status(200).send(productData);
     } catch (err) {
         console.log('error--', err)
@@ -35,7 +35,7 @@ const updateProductData = async (req, res) => {
         const Product = await switchConnection(req.user.newDbName, "Product");
         const isUpdated = await Product.update({ _id: req.body._id }, { $set: req.body })
         if (isUpdated) {
-            let updatedProductData = await Product.find({ status: 1 }).populate('brand').populate('product').populate('measuringUnit');
+            let updatedProductData = await Product.find().populate('brand').populate('product').populate('measuringUnit');
             res.send(updatedProductData);
             return;
         }
@@ -51,7 +51,7 @@ const deleteProductData = async (req, res) => {
         const Product = await switchConnection(req.user.newDbName, "Product");
         const isDelete = await Product.update({ _id: req.body.dataId }, { $set: { status: 0 } })
         if (isDelete) {
-            let updatedProductData = await Product.find({ status: 1 }).populate('brand').populate('product').populate('measuringUnit');
+            let updatedProductData = await Product.find().populate('brand').populate('product').populate('measuringUnit');
             res.send(updatedProductData);
             return;
         }
