@@ -10,7 +10,10 @@ const saveBrandUnitData = async (req, res) => {
     try {
         const BrandUnit = await switchConnection(req.user.newDbName, "BrandUnit");
         const brandUnitData = dataFilter(req.body, BRAND_UNIT_FIELD);
-
+        const isExist = await BrandUnit.findOne({ $and: [{ entryType: brandUnitData.entryType }, { value: brandUnitData.value }, { status: 1 }] });
+        if (isExist) {
+            throw new Error('Record is already exist');
+        }
         const savedData = await BrandUnit.create(brandUnitData);
         res.status(200).send(savedData);
     } catch (err) {

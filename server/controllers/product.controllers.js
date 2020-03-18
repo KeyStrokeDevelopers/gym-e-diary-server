@@ -10,6 +10,10 @@ const saveProductData = async (req, res) => {
     try {
         const Product = await switchConnection(req.user.newDbName, "Product");
         const productData = dataFilter(req.body, PRODUCT_FIELD);
+        const isExist = await Product.findOne({ $and: [{ brand: productData.brand }, { product: productData.product }, { modelNo: productData.modelNo }, { status: 1 }] });
+        if (isExist) {
+            throw new Error('Record is already exist');
+        }
         const savedData = await Product.create(productData);
         const product_data = await Product.find({ status: 1 }).populate('brand').populate('product').populate('measuringUnit');
         res.status(200).send(product_data);

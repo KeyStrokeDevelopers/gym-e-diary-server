@@ -10,7 +10,7 @@ const saveProductTypeData = async (req, res) => {
     try {
         const ProductType = await switchConnection(req.user.newDbName, "ProductType");
         const productTypeData = dataFilter(req.body, PRODUCT_TYPE_FIELD);
-        const isExist = await ProductType.findOne({ productType: productTypeData.productType });
+        const isExist = await ProductType.findOne({ $and: [{ productType: productTypeData.productType }, { status: 1 }] });
         if (isExist) {
             throw new Error('ProductType record is already exist');
         }
