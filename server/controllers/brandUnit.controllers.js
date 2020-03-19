@@ -66,9 +66,26 @@ const deleteBrandUnitData = async (req, res) => {
     }
 }
 
+const activeBrandUnitData = async (req, res) => {
+    try {
+        const BrandUnit = await switchConnection(req.user.newDbName, "BrandUnit");
+        const isDelete = await BrandUnit.update({ _id: req.params.brandUnitId }, { $set: { status: 1 } })
+        if (isDelete) {
+            let updatedBrandUnitData = await BrandUnit.find();
+            res.send(updatedBrandUnitData);
+            return;
+        }
+        throw new Error('BrandUnit data is not activated')
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).json({ message: err.message })
+    }
+}
+
 module.exports = {
     saveBrandUnitData,
     getBrandUnitData,
     updateBrandUnitData,
-    deleteBrandUnitData
+    deleteBrandUnitData,
+    activeBrandUnitData
 };

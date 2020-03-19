@@ -59,7 +59,7 @@ const fetchStaffAttendanceData = async (req, res) => {
             } else {
                 att = 'PRESENT';
             }
-            return { staffId: staffData._id, staffName: staffData.staffName, staffAttendance: att, date: item.date, staffAddress: staffData.staffAddress, staffContact: staffData.staffContact, staffEmail: staffData.staffEmail, staffCode: staffData.staffCode, staffAccessLevel: staffData.accessLevel['accessLevel'] }
+            return { staffAttendance: att, date: item.date }
         })
         const staff_data = await Promise.all(staffAttendanceData);
         res.status(200).send(staff_data);

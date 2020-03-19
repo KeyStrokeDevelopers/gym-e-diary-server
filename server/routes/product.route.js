@@ -1,5 +1,5 @@
 const express = require('express')
-const { saveProductData, getProductData, updateProductData, deleteProductData, getProductQuantity } = require('../controllers/product.controllers')
+const { saveProductData, getProductData, updateProductData, deleteProductData, getProductQuantity, activeProductData } = require('../controllers/product.controllers')
 const { checkAuth } = require('../auth')
 
 const router = express.Router()
@@ -7,6 +7,8 @@ const router = express.Router()
 router.get('/', checkAuth, getProductData);
 
 router.get('/:productId', checkAuth, getProductQuantity)
+
+router.get('/active/:productId', checkAuth, activeProductData)
 
 router.post('/', checkAuth, saveProductData)
 

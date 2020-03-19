@@ -65,9 +65,26 @@ const deleteProductTypeData = async (req, res) => {
     }
 }
 
+const activeProductTypeData = async (req, res) => {
+    try {
+        const ProductType = await switchConnection(req.user.newDbName, "ProductType");
+        const isDelete = await ProductType.update({ _id: req.params.productId }, { $set: { status: 1 } })
+        if (isDelete) {
+            let updatedProductTypeData = await ProductType.find();
+            res.send(updatedProductTypeData);
+            return;
+        }
+        throw new Error('ProductType data is not activated')
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).json({ message: err.message })
+    }
+}
+
 module.exports = {
     saveProductTypeData,
     getProductTypeData,
     updateProductTypeData,
-    deleteProductTypeData
+    deleteProductTypeData,
+    activeProductTypeData
 };

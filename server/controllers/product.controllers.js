@@ -66,6 +66,22 @@ const deleteProductData = async (req, res) => {
     }
 }
 
+const activeProductData = async (req, res) => {
+    try {
+        const Product = await switchConnection(req.user.newDbName, "Product");
+        const isDelete = await Product.update({ _id: req.params.productId }, { $set: { status: 1 } })
+        if (isDelete) {
+            let updatedProductData = await Product.find().populate('brand').populate('product').populate('measuringUnit');
+            res.send(updatedProductData);
+            return;
+        }
+        throw new Error('Product data is not activated')
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).json({ message: err.message })
+    }
+}
+
 const getProductQuantity = async (req, res) => {
     try {
         const Product = await switchConnection(req.user.newDbName, "Product");
@@ -82,5 +98,6 @@ module.exports = {
     getProductData,
     updateProductData,
     deleteProductData,
+    activeProductData,
     getProductQuantity
 };
