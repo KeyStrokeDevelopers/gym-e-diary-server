@@ -7,6 +7,7 @@ const expenseIncomeSchema = new Schema({
     staff: { type: Schema.Types.ObjectId, ref: 'Staff' },
     date: Date,
     paymentMethod: { type: Schema.Types.ObjectId, ref: 'PaymentMethod' },
+    paymentType: { type: String, required: true },
     amount: { type: Number, default: 7 },
     description: { type: String },
     status: { type: Number, default: 1 }

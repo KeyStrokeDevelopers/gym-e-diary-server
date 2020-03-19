@@ -10,11 +10,12 @@ const savePaymentMethodData = async (req, res) => {
     try {
         const PaymentMethod = await switchConnection(req.user.newDbName, "PaymentMethod");
         const paymentMethodData = dataFilter(req.body, PAYMENT_METHOD_FIELD);
-        const isExist = await PaymentMethod.findOne({ paymentMethod: paymentMethodData.paymentMethod });
+        const payment_method_data = { paymentMethod: paymentMethodData.paymentMethod.toUpperCase() }
+        const isExist = await PaymentMethod.findOne({ paymentMethod: payment_method_data.paymentMethod });
         if (isExist) {
             throw new Error('PaymentMethod record is already exist');
         }
-        const payment_method = await PaymentMethod.create(paymentMethodData);
+        const payment_method = await PaymentMethod.create(payment_method_data);
         res.status(200).send(payment_method);
     } catch (err) {
         console.log('error--', err)

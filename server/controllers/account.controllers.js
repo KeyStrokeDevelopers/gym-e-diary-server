@@ -34,6 +34,7 @@ const saveSalaryData = async (req, res) => {
     try {
         const ExpenseIncome = await switchConnection(req.user.newDbName, "ExpenseIncome");
         const salaryData = dataFilter(req.body, EXPENSE_INCOME_FIELD);
+        salaryData.paymentType = 'Salary';
         const salary_data = await ExpenseIncome.create(salaryData);
         const salary = await ExpenseIncome.findOne({ _id: salary_data._id }).populate('paymentMethod');
         const salaryReport = { date: salary.date, description: salary.description, amount: salary.amount, paymentMethod: salary.paymentMethod['paymentMethod'] }

@@ -25,7 +25,7 @@ const CLASS_FIELD = ['className', 'classDetail', 'classFrom', 'classTo', 'durati
 
 const ENQUIRY_FIELD = ['name', 'contact', 'fTitle', 'favourOf', 'alternativeContact', 'email', 'dob', 'address', 'query', 'response', 'followUp', 'followUpDate', 'referredBy', 'packageInfo', 'classInfo', 'purpose', 'enqStatus'];
 
-const EXPENSE_INCOME_FIELD = ['catName', 'staff', 'paymentMethod', 'amount', 'description', 'date', 'status'];
+const EXPENSE_INCOME_FIELD = ['paymentType', 'catName', 'staff', 'paymentMethod', 'amount', 'description', 'date', 'status'];
 
 const MEASUREMENT_FIELD = ['member', 'date', 'weight', 'height', 'neck', 'shoulder', 'chestExtended', 'chestNormal', 'forearms', 'biceps', 'wrist', 'upper', 'lower', 'waist', 'hip', 'thigh', 'calves', 'ankles', 'blood', 'sugar', 'fat', 'bmi', 'bmr', 'medicalHistory'];
 
