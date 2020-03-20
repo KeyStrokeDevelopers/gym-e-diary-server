@@ -37,8 +37,29 @@ const saveSalaryData = async (req, res) => {
         salaryData.paymentType = 'Salary';
         const salary_data = await ExpenseIncome.create(salaryData);
         const salary = await ExpenseIncome.findOne({ _id: salary_data._id }).populate('paymentMethod');
-        const salaryReport = { date: salary.date, description: salary.description, amount: salary.amount, paymentMethod: salary.paymentMethod['paymentMethod'] }
+        const salaryReport = { _id: salary._id, date: salary.date, description: salary.description, amount: salary.amount, paymentMethod: salary.paymentMethod['paymentMethod'] }
         res.status(200).send(salaryReport);
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).json({ message: err.message })
+    }
+}
+
+const updateSalaryData = async (req, res) => {
+    try {
+        const ExpenseIncome = await switchConnection(req.user.newDbName, "ExpenseIncome");
+        const salaryData = dataFilter(req.body.data, EXPENSE_INCOME_FIELD);
+        const isUpdated = await ExpenseIncome.update({ _id: req.body.data._id }, { $set: salaryData })
+        if (isUpdated) {
+            const expense_income_data = await ExpenseIncome.find({ $and: [{ staff: req.body.data.staff }, { $and: [{ date: { $gte: req.body.fromDate } }, { date: { $lte: req.body.toDate } }] }] }).populate('paymentMethod');
+            const ExpenseIncomeData = expense_income_data.map(async (item) => {
+                return { _id: item._id, date: item.date, description: item.description, amount: item.amount, paymentMethod: item.paymentMethod['paymentMethod'] }
+            })
+            const salaryData = await Promise.all(ExpenseIncomeData);
+            res.status(200).send(salaryData);
+            return;
+        }
+        throw new Error('Salary data is not updated')
     } catch (err) {
         console.log('error--', err)
         res.status(400).json({ message: err.message })
@@ -50,7 +71,7 @@ const getSalaryData = async (req, res) => {
         const ExpenseIncome = await switchConnection(req.user.newDbName, "ExpenseIncome");
         const expense_income_data = await ExpenseIncome.find({ $and: [{ staff: req.body.staff }, { $and: [{ date: { $gte: req.body.fromDate } }, { date: { $lte: req.body.toDate } }] }] }).populate('paymentMethod');
         const ExpenseIncomeData = expense_income_data.map(async (item) => {
-            return { date: item.date, description: item.description, amount: item.amount, paymentMethod: item.paymentMethod['paymentMethod'] }
+            return { _id: item._id, date: item.date, description: item.description, amount: item.amount, paymentMethod: item.paymentMethod['paymentMethod'] }
         })
         const salaryData = await Promise.all(ExpenseIncomeData);
         res.status(200).send(salaryData);
@@ -109,5 +130,6 @@ module.exports = {
     updateAccountData,
     saveSalaryData,
     getSalaryData,
+    updateSalaryData,
     deleteAccountData
 };
