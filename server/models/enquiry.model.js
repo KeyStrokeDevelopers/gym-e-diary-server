@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const moment = require('moment');
 
 const Schema = mongoose.Schema;
 
@@ -10,7 +11,7 @@ const enquirySchema = new Schema({
     alternativeContact: String,
     email: String,
     dob: { type: Date },
-    enqDate: { type: Date, default: new Date() },
+    enqDate: { type: Date, default: moment(new Date()).format('YYYY-MM-DD') },
     address: { type: String, required: true },
     query: String,
     response: { type: String, required: true },

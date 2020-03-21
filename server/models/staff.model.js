@@ -15,6 +15,7 @@ const staffSchema = new Schema({
   salaryDate: { type: Date },
   staffDob: { type: Date, required: true },
   deactiveDate: { type: Date },
+  numberOfShift: Number,
   shiftFrom1: Date,
   shiftFrom2: Date,
   shiftFrom3: Date,
