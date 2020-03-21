@@ -25,7 +25,7 @@ const gymInfoSchema = new Schema({
     appId: { type: String, default: null },
     authId: { type: String, default: null },
     smsApi: { type: String, default: null },
-    gstNumber: { type: Number },
+    gstNumber: { type: String },
     smsBalance: { type: Number, default: 10 },
     biometric: { type: Boolean, default: false },
     walletBalance: { type: Number, default: 0 },
