@@ -27,7 +27,10 @@ const getGymInfoData = async (req, res) => {
         const counterData = await Counter.find();
         const GymInfoData = await GymInfo.findOne();
         let gym_info_data = GetObjectData(GymInfoData, GYM_INFO_FIELD);
-        gym_info_data.isCounterOn = counterData.length >= 1 ? true : false;
+        if (counterData && counterData.length >= 1) {
+            gym_info_data.isCounterOn = counterData.length >= 1 ? true : false;
+            gym_info_data.preFix = counterData[0].preFix;
+        }
         res.status(200).send(gym_info_data);
     } catch (err) {
         console.log('error--', err)

@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const { JWT_SECRET } = require('../constant')
+const { JWT_SECRET, GYM_INFO_FIELD } = require('../constant')
 const { STAFF_INFO_FIELD, BCRYPT_SALT_ROUNDS } = require('../constant')
-const { fileDataFilter } = require('../constant/fieldFilter')
+const { fileDataFilter, GetObjectData } = require('../constant/fieldFilter')
+
 const switchConnection = require('../databaseConnection/switchDb')
 
 const getToken = async (req, res) => {
@@ -46,8 +47,15 @@ const getLogedStaffData = async (req, res) => {
     try {
         const Staff = await switchConnection(req.user.newDbName, "Staff");
         const GymInfo = await switchConnection(req.user.newDbName, "GymInfo");
+        const Counter = await switchConnection(req.user.newDbName, "Counter");
         const staffData = await Staff.findOne({ _id: req.user.loginId }).populate('accessLevel');
-        const gymData = await GymInfo.findOne();
+        const GymInfoData = await GymInfo.findOne();
+        const counterData = await Counter.find();
+        let gymData = GetObjectData(GymInfoData, GYM_INFO_FIELD);
+        if (counterData && counterData.length >= 1) {
+            gymData.isCounterOn = counterData.length >= 1 ? true : false;
+            gymData.preFix = counterData[0].preFix;
+        }
         const data = { staffData, gymData }
         res.status(200).send(data);
     } catch (err) {
