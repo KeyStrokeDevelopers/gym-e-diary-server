@@ -15,7 +15,14 @@ const staffSchema = new Schema({
   salaryDate: { type: Date },
   staffDob: { type: Date, required: true },
   deactiveDate: { type: Date },
+  shiftFrom1: Date,
+  shiftFrom2: Date,
+  shiftFrom3: Date,
+  shiftTo1: Date,
+  shiftTo2: Date,
+  shiftTo3: Date,
   status: { type: Number, default: 1 }
+
 });
 
 const Staff = mongoose.model('Staff', staffSchema);

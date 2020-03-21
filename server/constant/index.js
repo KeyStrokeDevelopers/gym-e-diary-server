@@ -1,6 +1,6 @@
 const GYM_INFO_FIELD = ['printLogo', 'branchLogo', 'branchTerms', 'branchName', 'branchAddress', 'branchCity', 'branchCity', 'branchState', 'branchPin', 'branchContact', 'branchEmail', 'branchDetails', 'branchBillCode', 'branchLimit', 'regFee', 'autoBirth', 'autoAnniv', 'autoExpired', 'autoExpiring', 'isStaffAttendance', 'isMemberAttendance', 'gstNumber', 'appId', 'authId', 'smsApi', 'smsBalance', 'seriesStartFrom', 'membershipTC', 'billingTC'];
 
-const STAFF_INFO_FIELD = ['accessLevel', 'staffName', 'staffAddress', 'staffContact', 'staffEmail', 'staffCode', 'staffPassword', 'staffJoiningDate', 'salaryDate', 'staffDob', 'status', 'deactiveDate'];
+const STAFF_INFO_FIELD = ['accessLevel', 'staffName', 'staffAddress', 'staffContact', 'staffEmail', 'staffCode', 'staffPassword', 'staffJoiningDate', 'salaryDate', 'staffDob', 'status', 'deactiveDate', 'shiftFrom1', 'shiftFrom2', 'shiftFrom3', 'shiftTo1', 'shiftTo2', 'shiftTo3'];
 
 const ACCESS_LEVEL_FIELD = ['accessLevel', 'controls', 'status', 'dated'];
 

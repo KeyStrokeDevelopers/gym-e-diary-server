@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 const classSchema = new Schema({
     className: { type: String, unique: true },
     classDetail: { type: String, default: null },
-    classFrom: { type: String },
-    classTo: { type: String },
+    classFrom: { type: Date },
+    classTo: { type: Date },
     durationIn: { type: String, required: true },
     classDuration: { type: Number, default: null },
     classPrice: { type: Number, default: 0 },
