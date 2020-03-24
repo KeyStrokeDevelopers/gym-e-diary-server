@@ -64,9 +64,26 @@ const deleteExpenseIncomeData = async (req, res) => {
     }
 }
 
+const activeExpenseIncomeData = async (req, res) => {
+    try {
+        const ExpenseIncome = await switchConnection(req.user.newDbName, "ExpenseIncome");
+        const isActive = await ExpenseIncome.update({ _id: req.params.dataId }, { $set: { status: 1 } })
+        if (isActive) {
+            let updatedExpenseIncomeData = await ExpenseIncome.find().populate('catName').populate('paymentMethod');
+            res.send(updatedExpenseIncomeData);
+            return;
+        }
+        throw new Error('ExpenseIncome data is not activated')
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).json({ message: err.message })
+    }
+}
+
 module.exports = {
     saveExpenseIncomeData,
     getExpenseIncomeData,
     updateExpenseIncomeData,
-    deleteExpenseIncomeData
+    deleteExpenseIncomeData,
+    activeExpenseIncomeData
 };
