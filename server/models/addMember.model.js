@@ -53,7 +53,9 @@ const addMemberSchema = new Schema({
 addMemberSchema.pre('save', async function (next) {
     try {
         const doc = this;
-        const Counter = await switchConnection(newDbName, "Counter");
+        const dbConnection = await global.clientConnection;
+        const db = await dbConnection.useDb(newDbName);
+        const Counter = await db.model("Counter");
         const counterData = await Counter.findByIdAndUpdate({ _id: 'counterId' }, { $inc: { no: 1 } }, { new: true })
         doc.memberNo = counterData.no;
         doc.regNo = counterData.preFix ? `${counterData.preFix}/${new Date().getFullYear()}/${counterData.no}` : `${new Date().getFullYear()}/${counterData.no}`;

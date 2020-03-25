@@ -111,7 +111,6 @@ const getAddMemberData = async (req, res) => {
     try {
         const AddMember = await switchConnection(req.user.newDbName, "AddMember");
         const addMemberData = await AddMember.find();
-        console.log('addmember --get-', addMemberData)
         res.status(200).send(addMemberData);
     } catch (err) {
         console.log('error--', err)

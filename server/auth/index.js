@@ -78,7 +78,6 @@ passport.use(
             if (!staff) {
                 return done(null, false);
             }
-
             return done(null, { newDbName: jwt_payload.newDbName, loginId: jwt_payload._id });
         } catch (err) {
             return done(err, false);

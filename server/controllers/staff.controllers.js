@@ -132,6 +132,23 @@ const deleteStaffData = async (req, res) => {
     }
 }
 
+const activeStaffData = async (req, res) => {
+    try {
+        const Staff = await switchConnection(req.user.newDbName, "Staff");
+        const isActive = await Staff.update({ _id: req.params.dataId }, { $set: { status: 1 } })
+        if (isActive) {
+            let updatedStaffData = await Staff.find().populate('accessLevel');
+            res.send(updatedStaffData);
+            return;
+        }
+        throw new Error('Staff data is not activated');
+
+    } catch (err) {
+        console.log('error--', err)
+        res.status(400).json({ message: err.message })
+    }
+}
+
 
 const changePassword = async (req, res) => {
     try {
@@ -161,6 +178,7 @@ module.exports = {
     saveStaffData,
     updateStaffData,
     deleteStaffData,
+    activeStaffData,
     changePassword,
     getLogedStaffData
 };

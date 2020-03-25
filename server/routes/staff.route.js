@@ -1,7 +1,7 @@
 const express = require('express')
 const path = require('path')
 const { checkAuth, userLogin, checkMaster } = require('../auth')
-const { getToken, getStaffData, saveStaffData, updateStaffData, deleteStaffData, changePassword, getLogedStaffData } = require('../controllers/staff.controllers')
+const { getToken, getStaffData, saveStaffData, updateStaffData, deleteStaffData, changePassword, getLogedStaffData, activeStaffData } = require('../controllers/staff.controllers')
 const router = express.Router()
 const multer = require('multer')
 
@@ -17,6 +17,8 @@ var upload = multer({ storage: storage })
 router.post("/signIn", checkMaster, userLogin, getToken)
 
 router.get('/', checkAuth, getStaffData);
+
+router.get('/active/:dataId', checkAuth, activeStaffData);
 
 router.get('/initialData', checkAuth, getLogedStaffData);
 
