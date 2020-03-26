@@ -1,6 +1,6 @@
 const switchConnection = require('../databaseConnection/switchDb');
 const { fileDataFilter, GetObjectData } = require('../constant/fieldFilter');
-const { GYM_INFO_FIELD } = require('../constant');
+const { GYM_INFO_VIEW_FIELD, GYM_INFO_FIELD } = require('../constant');
 
 /**
  * 
@@ -26,7 +26,7 @@ const getGymInfoData = async (req, res) => {
         const Counter = await switchConnection(req.user.newDbName, "Counter");
         const counterData = await Counter.find();
         const GymInfoData = await GymInfo.findOne();
-        let gym_info_data = GetObjectData(GymInfoData, GYM_INFO_FIELD);
+        let gym_info_data = GetObjectData(GymInfoData, GYM_INFO_VIEW_FIELD);
         if (counterData && counterData.length >= 1) {
             gym_info_data.isCounterOn = counterData.length >= 1 ? true : false;
             gym_info_data.preFix = counterData[0].preFix;
@@ -43,17 +43,20 @@ const updateGymInfo = async (req, res) => {
         const GymInfo = await switchConnection(req.user.newDbName, "GymInfo");
         const updateGymInfoData = fileDataFilter(req.body, GYM_INFO_FIELD);
         if (req.file) {
-            updateGymInfoData.branchLogo = req.file && req.file.filename;
+            var index = req.file.filename.indexOf("/");
+            if (index < 0) {
+                updateGymInfoData.branchLogo = req.file.filename;
+            }
         }
         const Counter = await switchConnection(req.user.newDbName, "Counter");
-        const counterData = await Counter.find();
-        if (req.body.preFix && counterData.length >= 1) {
-            await Counter.updateOne({ _id: counterData[0]._id }, { $set: { preFix: req.body.preFix } });
+        const counterData = await Counter.findOne();
+        if (req.body.preFix && counterData) {
+            await Counter.updateOne({ _id: counterData._id }, { $set: { preFix: req.body.preFix } });
         }
-        if (counterData.length < 1) {
+        if (!counterData) {
             if (req.body.seriesStartFrom) {
-                let counter_data = {};
-                counter_data.no = req.body.seriesStartFrom;
+                let counter_data = { _id: 'counterId' };
+                counter_data.no = req.body.seriesStartFrom - 1;
                 if (req.body.preFix) {
                     counter_data.preFix = req.body.preFix;
                 }

@@ -18,7 +18,12 @@ const saveAddMemberData = async (req, res) => {
         const addMemberData = fileDataFilter(req.body, ADD_MEMBER_FIELD);
         addMemberData.profileImage = req.file && req.file.filename;
         const AddMember = await switchConnection(req.user.newDbName, "AddMember");
-        const isInserted = await AddMember.findOne({ $or: [{ memberEmail: addMemberData.memberEmail }, { contact: addMemberData.contact }] });
+        let isInserted;
+        if (addMemberData.memberEmail) {
+            isInserted = await AddMember.findOne({ $or: [{ memberEmail: addMemberData.memberEmail }, { contact: addMemberData.contact }] });
+        } else {
+            isInserted = await AddMember.findOne({ contact: addMemberData.contact });
+        }
         if (isInserted) {
             throw new Error('Record already inserted');
         }

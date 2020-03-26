@@ -1,4 +1,6 @@
-const GYM_INFO_FIELD = ['printLogo', 'branchLogo', 'branchTerms', 'branchName', 'branchAddress', 'branchCity', 'branchCity', 'branchState', 'branchPin', 'branchContact', 'branchEmail', 'branchDetails', 'branchBillCode', 'branchLimit', 'regFee', 'autoBirth', 'autoAnniv', 'autoExpired', 'autoExpiring', 'isStaffAttendance', 'isMemberAttendance', 'gstNumber', 'appId', 'authId', 'smsApi', 'smsBalance', 'seriesStartFrom', 'membershipTC', 'billingTC'];
+const GYM_INFO_FIELD = ['printLogo', 'branchTerms', 'branchName', 'branchAddress', 'branchCity', 'branchCity', 'branchState', 'branchPin', 'branchContact', 'branchEmail', 'branchDetails', 'branchBillCode', 'branchLimit', 'regFee', 'autoBirth', 'autoAnniv', 'autoExpired', 'autoExpiring', 'isStaffAttendance', 'isMemberAttendance', 'gstNumber', 'appId', 'authId', 'smsApi', 'smsBalance', 'seriesStartFrom', 'membershipTC', 'billingTC'];
+
+const GYM_INFO_VIEW_FIELD = ['printLogo', 'branchLogo', 'branchTerms', 'branchName', 'branchAddress', 'branchCity', 'branchCity', 'branchState', 'branchPin', 'branchContact', 'branchEmail', 'branchDetails', 'branchBillCode', 'branchLimit', 'regFee', 'autoBirth', 'autoAnniv', 'autoExpired', 'autoExpiring', 'isStaffAttendance', 'isMemberAttendance', 'gstNumber', 'appId', 'authId', 'smsApi', 'smsBalance', 'seriesStartFrom', 'membershipTC', 'billingTC'];
 
 const STAFF_INFO_FIELD = ['accessLevel', 'staffName', 'staffAddress', 'staffContact', 'staffEmail', 'staffCode', 'staffPassword', 'staffJoiningDate', 'salaryDate', 'staffDob', 'status', 'numberOfShift', 'deactiveDate', 'shiftFrom1', 'shiftFrom2', 'shiftFrom3', 'shiftTo1', 'shiftTo2', 'shiftTo3'];
 
@@ -57,6 +59,7 @@ const BCRYPT_SALT_ROUNDS = 12;
 
 module.exports = {
     GYM_INFO_FIELD,
+    GYM_INFO_VIEW_FIELD,
     STAFF_INFO_FIELD,
     ACCESS_LEVEL_FIELD,
     SMS_SUBSCRIPTION_FIELD,

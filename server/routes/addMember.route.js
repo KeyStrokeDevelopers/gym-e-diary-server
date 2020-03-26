@@ -23,7 +23,7 @@ router.post('/', checkAuth, upload.single('addmImage'), saveAddMemberData)
 
 router.post('/wishes', checkAuth, updateWishes)
 
-router.put('/', checkAuth, updateAddMemberData)
+router.put('/', checkAuth, upload.single('addmImage'), updateAddMemberData)
 
 router.delete('/', checkAuth, deleteAddMemberData)
 
