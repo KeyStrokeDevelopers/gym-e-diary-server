@@ -128,7 +128,10 @@ const updateAddMemberData = async (req, res) => {
         const AddMember = await switchConnection(req.user.newDbName, "AddMember");
         const updateAddMemberData = fileDataFilter(req.body, ADD_MEMBER_FIELD);
         if (req.file) {
-            updateAddMemberData.profileImage = req.file && req.file.filename;
+            var index = req.file.filename.indexOf("/");
+            if (index < 0) {
+                updateAddMemberData.profileImage = req.file.filename;
+            }
         }
         const isUpdated = await AddMember.update({ _id: req.body._id }, { $set: updateAddMemberData })
         if (isUpdated) {

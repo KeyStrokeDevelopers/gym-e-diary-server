@@ -100,7 +100,10 @@ const updateStaffData = async (req, res) => {
         const Staff = await switchConnection(req.user.newDbName, "Staff");
         const staffInfo = fileDataFilter(req.body, STAFF_INFO_FIELD);
         if (req.file) {
-            staffInfo.staffImage = req.file && req.file.filename;
+            var index = req.file.filename.indexOf("/");
+            if (index < 0) {
+                staffInfo.staffImage = req.file.filename;
+            }
         }
         const isUpdated = await Staff.update({ _id: req.body._id }, { $set: staffInfo })
         if (isUpdated) {
